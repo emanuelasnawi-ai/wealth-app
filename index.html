@@ -1,21 +1,1049 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <title>Wealth</title>
+<meta name="theme-color" content="#0E8C5E"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Wealth"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.31.0/iconfont/tabler-icons.min.css"/>
+<style>
+:root{--bg:#F4F7F5;--s:#fff;--s2:#EEF3F0;--b:#E2EAE5;--t:#0F1F19;--t2:#516259;--t3:#8A9B92;--em:#0E8C5E;--gold:#D4A017;--goldb:#F5B700;}
+@media(prefers-color-scheme:dark){:root{--bg:#0B0F0D;--s:#141A17;--s2:#1B2420;--b:#26332C;--t:#ECF3EF;--t2:#9FB3A8;--t3:#6B7E74;--em:#10B981;--gold:#F5B700;--goldb:#FFD23F;}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overscroll-behavior-y:none;}
+input,select,button{font-family:inherit;color:var(--t);}
+::-webkit-scrollbar{display:none;}
+#safe{height:env(safe-area-inset-top);background:var(--em);}
+@keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes spring{0%{opacity:0;transform:translateY(16px) scale(.97)}60%{transform:translateY(-2px) scale(1.005)}100%{opacity:1;transform:none}}
+@keyframes fall{to{transform:translateY(120px) rotate(360deg);opacity:0}}
+.spin{animation:spin 1s linear infinite}
+.spring{animation:spring .4s cubic-bezier(.34,1.56,.64,1) both}
+.card{background:var(--s);border:1px solid var(--b);border-radius:16px;}
+.press{transition:transform .1s;cursor:pointer;}
+.press:active{transform:scale(.96);}
+.grad{background:linear-gradient(135deg,#0E8C5E,#10B981,#047857);background-size:200% 200%;animation:shimmer 10s ease infinite;}
+.gym-grad{background:linear-gradient(135deg,#1565C0,#1976D2,#0D47A1);background-size:200% 200%;animation:shimmer 10s ease infinite;}
+.nav-wrap{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:40;padding-bottom:env(safe-area-inset-bottom);}
+.nav-inner{margin:0 10px 8px;background:var(--s);border-radius:24px;display:flex;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.12);border:1px solid var(--b);padding:4px;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0;background:none;border:none;cursor:pointer;color:var(--t3);font-size:9px;font-weight:500;}
+.nb.on{color:var(--em);font-weight:700;}
+.sheet-bg{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(0,0,0,.55);animation:fadeIn .2s;}
+.sheet{background:var(--s);border-radius:26px 26px 0 0;padding-bottom:env(safe-area-inset-bottom);max-height:94vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.3,.64,1);}
+.handle{width:36px;height:4px;border-radius:99px;background:var(--b);margin:10px auto 4px;}
+.inp{width:100%;font-size:14px;padding:11px 13px;border-radius:11px;border:1px solid var(--b);background:var(--s);color:var(--t);outline:none;box-sizing:border-box;margin-bottom:8px;display:block;}
+.addbtn{width:100%;padding:11px;background:var(--s);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:600;border:2px dashed;cursor:pointer;}
+</style>
 </head>
-<body style="background:#0B0F0D;color:#fff;font-family:sans-serif;padding:30px;font-size:18px;">
-<h2>Step 1 ✅ HTML loads</h2>
-<div id="out">Step 2: Running JS...</div>
+<body>
+<div id="safe"></div>
+<div id="app" style="max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:90px;"></div>
+
 <script>
-document.getElementById('out').innerHTML='Step 2 ✅ JS works<br><br>Now testing Supabase...';
-const SUPA="https://eluwcwbjenpqehrsnalr.supabase.co";
-const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsdXdjd2JqZW5wcWVocnNuYWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyOTc4MzQsImV4cCI6MjA5NTg3MzgzNH0.sBZ4UrY0e3GPZQUo4ikl1GmD4uhlbNFLS81N-sD3v10";
-fetch(SUPA+"/rest/v1/profiles?limit=1",{headers:{"apikey":KEY,"Authorization":"Bearer "+KEY}})
-.then(r=>r.json())
-.then(d=>{document.getElementById('out').innerHTML='Step 2 ✅ JS works<br>Step 3 ✅ Supabase connected<br><br><span style="color:#10B981;font-size:22px">Everything works! Ready to load full app.</span>';})
-.catch(e=>{document.getElementById('out').innerHTML='Step 2 ✅ JS works<br>Step 3 ❌ Supabase error: '+e.message;});
+// ── CONFIG ──────────────────────────────────────────────────────────────
+const SB="https://eluwcwbjenpqehrsnalr.supabase.co";
+const SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsdXdjd2JqZW5wcWVocnNuYWxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyOTc4MzQsImV4cCI6MjA5NTg3MzgzNH0.sBZ4UrY0e3GPZQUo4ikl1GmD4uhlbNFLS81N-sD3v10";
+const PCOLORS=["#0E8C5E","#EC4899","#0891B2","#F97316","#7C3AED","#0277BD","#D4A017","#DC2626"];
+const DAYC=["#1565C0","#1976D2","#0D47A1","#1E88E5","#0A3272"];
+const ECATS=[
+  {id:"food",label:"Food & Drink",icon:"ti-tools-kitchen-2",color:"#EF4444"},
+  {id:"transport",label:"Transport",icon:"ti-car",color:"#F59E0B"},
+  {id:"bills",label:"Bills",icon:"ti-receipt",color:"#A855F7"},
+  {id:"shopping",label:"Shopping",icon:"ti-shopping-bag",color:"#3B82F6"},
+  {id:"entertainment",label:"Entertainment",icon:"ti-device-gamepad-2",color:"#06B6D4"},
+  {id:"health",label:"Health",icon:"ti-heart-rate-monitor",color:"#10B981"},
+  {id:"education",label:"Education",icon:"ti-book",color:"#F97316"},
+  {id:"travel",label:"Travel",icon:"ti-plane",color:"#8B5CF6"},
+  {id:"others",label:"Others",icon:"ti-dots-circle-horizontal",color:"#6B7280"},
+];
+const ICATS=[
+  {id:"salary",label:"Salary",icon:"ti-building-bank",color:"#0E8C5E"},
+  {id:"allowance",label:"Allowance",icon:"ti-heart",color:"#EC4899"},
+  {id:"freelance",label:"Freelance",icon:"ti-briefcase",color:"#0891B2"},
+  {id:"investment",label:"Investment",icon:"ti-trending-up",color:"#7C3AED"},
+  {id:"others",label:"Others",icon:"ti-dots-circle-horizontal",color:"#6B7280"},
+];
+const DEF_DAYS=[
+  {label:"Push",icon:"ti-arrow-up",exercises:["Bench Press","Overhead Press","Incline Press","Tricep Pushdown","Cable Fly","Dip"]},
+  {label:"Pull",icon:"ti-arrow-down",exercises:["Deadlift","Barbell Row","Lat Pulldown","Pull-Up","Bicep Curl","Face Pull"]},
+  {label:"Legs",icon:"ti-run",exercises:["Squat","Romanian Deadlift","Leg Press","Lunges","Hip Thrust","Leg Curl"]},
+];
+
+// ── UTILS ────────────────────────────────────────────────────────────────
+const uid=()=>Math.random().toString(36).slice(2)+Date.now().toString(36).slice(-4);
+const tod=()=>new Date().toISOString().slice(0,10);
+const mk=d=>d.slice(0,7);
+const nowM=()=>mk(tod());
+const mLbl=m=>{const[y,mo]=m.split("-");return new Date(+y,+mo-1,1).toLocaleDateString("en-US",{month:"long",year:"numeric"});};
+const fK=n=>{const a=Math.abs(n);if(a>=1e9)return(n<0?"-":"")+(a/1e9).toFixed(1)+"B";if(a>=1e6)return(n<0?"-":"")+(a/1e6).toFixed(1)+"jt";return Math.round(n).toLocaleString("id-ID");};
+const ini=n=>{const p=n.trim().split(/\s+/);return((p[0]?.[0]||"")+(p[1]?.[0]||"")).toUpperCase();};
+const e1rm=(w,r)=>+(w*(1+r/30)).toFixed(1);
+const el=id=>document.getElementById(id);
+const app=()=>el("app");
+
+function h(tag,attrs={},kids=[]){
+  const e=document.createElement(tag);
+  for(const[k,v]of Object.entries(attrs)){
+    if(k==="cls")e.className=v;
+    else if(k==="style"&&typeof v==="object")Object.assign(e.style,v);
+    else if(k.startsWith("on"))e.addEventListener(k.slice(2).toLowerCase(),v);
+    else e.setAttribute(k,v);
+  }
+  for(const k of kids){
+    if(k==null||k===false)continue;
+    e.appendChild(typeof k==="string"||typeof k==="number"?document.createTextNode(String(k)):k);
+  }
+  return e;
+}
+const div=(a,k)=>h("div",a,k);
+const btn=(a,k)=>h("button",a,k);
+const span=(a,k)=>h("span",a,k);
+const ico=(cls,style={})=>h("i",{cls:`ti ${cls}`,style});
+
+// ── DB ───────────────────────────────────────────────────────────────────
+async function db(table,method,body,query=""){
+  const url=`${SB}/rest/v1/${table}${query}`;
+  const hd={"Content-Type":"application/json","apikey":SK,"Authorization":`Bearer ${SK}`,"Prefer":"return=representation"};
+  const r=await fetch(url,{method,headers:hd,body:body?JSON.stringify(body):null});
+  if(r.status===204)return[];
+  try{return await r.json();}catch{return[];}
+}
+const GET=(t,q)=>db(t,"GET",null,q);
+const POST=(t,b)=>db(t,"POST",b);
+const PATCH=(t,q,b)=>db(t,"PATCH",b,q);
+const DEL=(t,q)=>db(t,"DELETE",null,q);
+
+// ── STATE ────────────────────────────────────────────────────────────────
+let S={
+  phase:"loading",
+  profiles:[],
+  activeId:localStorage.getItem("w_pid")||null,
+  appTab:"finance",
+  finTab:"home",
+  gymTab:"log",
+  month:nowM(),
+  sheet:null,
+  fin:{txns:[],accs:[],budgets:{},bRows:[],stocks:[],crypto:[],deps:[],loans:[],usdIdr:17850,sPrice:{},cPrice:{}},
+  gym:{days:[],sessions:[]},
+  loading:false,
+};
+let profile=()=>S.profiles.find(p=>p.id===S.activeId)||{};
+function setS(patch){Object.assign(S,typeof patch==="function"?patch(S):patch);render();}
+function setFin(patch){S.fin=Object.assign({},S.fin,typeof patch==="function"?patch(S.fin):patch);render();}
+function setGym(patch){S.gym=Object.assign({},S.gym,typeof patch==="function"?patch(S.gym):patch);render();}
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+async function init(){
+  try{
+    const profiles=await GET("profiles","?order=created_at.asc")||[];
+    const aid=S.activeId;
+    if(aid&&profiles.find(p=>p.id===aid)){
+      setS({profiles,phase:"app",loading:true});
+      await Promise.all([loadFin(),loadGym()]);
+      setS({loading:false});
+      fetchPrices();
+    }else{
+      setS({profiles,phase:"picker",activeId:null});
+    }
+  }catch(e){setS({phase:"error"});}
+}
+
+async function loadFin(){
+  const pid=S.activeId;
+  const [txns,accs,bgets,stks,crys,deps,lns]=await Promise.all([
+    GET("transactions",`?profile_id=eq.${pid}&order=date.desc`),
+    GET("accounts",`?profile_id=eq.${pid}`),
+    GET("budgets",`?profile_id=eq.${pid}`),
+    GET("stocks",`?profile_id=eq.${pid}`),
+    GET("crypto",`?profile_id=eq.${pid}`),
+    GET("deposits",`?profile_id=eq.${pid}`),
+    GET("loans",`?profile_id=eq.${pid}`),
+  ]);
+  const budgets={};(bgets||[]).forEach(b=>{budgets[b.category]=b.amount;});
+  S.fin={...S.fin,txns:txns||[],accs:accs||[],budgets,bRows:bgets||[],stocks:stks||[],crypto:crys||[],deps:deps||[],loans:lns||[]};
+}
+
+async function loadGym(){
+  const pid=S.activeId;
+  const daysRaw=await GET("workout_days",`?profile_id=eq.${pid}&order=sort_order.asc`)||[];
+  const sessRaw=await GET("workout_sessions",`?profile_id=eq.${pid}&order=date.desc`)||[];
+  let days=[],sessions=[];
+  if(daysRaw.length){
+    const ids=daysRaw.map(d=>d.id).join(",");
+    const exs=await GET("workout_exercises",`?day_id=in.(${ids})&order=sort_order.asc`)||[];
+    const byDay={};exs.forEach(e=>{(byDay[e.day_id]=byDay[e.day_id]||[]).push(e.name);});
+    days=daysRaw.map(d=>({...d,exercises:byDay[d.id]||[]}));
+  }
+  if(sessRaw.length){
+    const sids=sessRaw.map(s=>s.id).join(",");
+    const sets=await GET("workout_sets",`?session_id=in.(${sids})`)||[];
+    const bySess={};sets.forEach(s=>{(bySess[s.session_id]=bySess[s.session_id]||[]).push(s);});
+    sessions=sessRaw.map(s=>{
+      const byEx={};(bySess[s.id]||[]).forEach(set=>{(byEx[set.exercise_name]=byEx[set.exercise_name]||[]).push({weight:set.weight,reps:set.reps});});
+      return{...s,exercises:Object.entries(byEx).map(([name,sets])=>({name,sets}))};
+    });
+  }
+  S.gym={days,sessions};
+}
+
+async function fetchPrices(){
+  try{const r=await fetch("https://api.frankfurter.app/latest?from=USD&to=IDR");const j=await r.json();if(j?.rates?.IDR){S.fin.usdIdr=j.rates.IDR;render();}}catch(e){}
+  if(S.fin.crypto.length){
+    try{
+      const coins=[...new Set(S.fin.crypto.map(c=>c.coin.toLowerCase()))].join(",");
+      const r=await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins}&vs_currencies=idr`);
+      const j=await r.json();const p={};Object.entries(j).forEach(([k,v])=>{p[k]=v.idr;});
+      S.fin.cPrice=p;render();
+    }catch(e){}
+  }
+  if(S.fin.stocks.length){
+    const prices={};
+    await Promise.all([...new Set(S.fin.stocks.map(s=>s.ticker))].map(async t=>{
+      try{const r=await fetch(`https://query2.finance.yahoo.com/v8/finance/chart/${t}.JK?interval=1d&range=1d`);const j=await r.json();const p=j?.chart?.result?.[0]?.meta?.regularMarketPrice;if(p)prices[t]=p;}catch(e){}
+    }));
+    S.fin.sPrice=prices;render();
+  }
+}
+
+// ── PROFILE ACTIONS ──────────────────────────────────────────────────────
+async function addProfile(name,color){
+  const p={id:uid(),name,color,cash_balance:0};
+  await POST("profiles",p);
+  for(let i=0;i<DEF_DAYS.length;i++){
+    const d=DEF_DAYS[i],did=uid();
+    await POST("workout_days",{id:did,profile_id:p.id,label:d.label,icon:d.icon,sort_order:i});
+    for(let j=0;j<d.exercises.length;j++)
+      await POST("workout_exercises",{id:uid(),day_id:did,name:d.exercises[j],sort_order:j});
+  }
+  localStorage.setItem("w_pid",p.id);
+  S.profiles=[...S.profiles,p];S.activeId=p.id;S.phase="app";S.loading=true;
+  render();
+  await Promise.all([loadFin(),loadGym()]);
+  setS({loading:false});
+  fetchPrices();
+}
+
+// ── FIN HELPERS ──────────────────────────────────────────────────────────
+function accBal(id){
+  const a=S.fin.accs.find(x=>x.id===id);if(!a)return 0;
+  return a.opening_balance+S.fin.txns.filter(t=>t.account_id===id).reduce((s,t)=>t.type==="income"?s+t.amount:s-t.amount,0);
+}
+function cashRun(){return(profile().cash_balance||0)+S.fin.txns.filter(t=>!t.account_id||t.account_id==="cash").reduce((s,t)=>t.type==="income"?s+t.amount:s-t.amount,0);}
+function monthTxns(){return S.fin.txns.filter(t=>mk(t.date)===S.month);}
+
+// ── GYM HELPERS ──────────────────────────────────────────────────────────
+function gymPRs(){
+  const prs={};
+  S.gym.sessions.forEach(s=>s.exercises.forEach(ex=>ex.sets.forEach(set=>{
+    const v=e1rm(set.weight,set.reps);
+    if(!prs[ex.name]||v>prs[ex.name].e1rm)prs[ex.name]={e1rm:v,weight:set.weight,reps:set.reps,date:s.date};
+  })));
+  return prs;
+}
+function gymTargets(name){
+  const cut=new Date();cut.setDate(cut.getDate()-14);const cs=cut.toISOString().slice(0,10);
+  let mw=0,mr=0;
+  S.gym.sessions.forEach(s=>{if(s.date<cs)return;s.exercises.forEach(ex=>{if(ex.name!==name)return;ex.sets.forEach(set=>{if(set.weight>mw)mw=set.weight;if(set.reps>mr)mr=set.reps;});});});
+  return mw>0?{weight:mw,reps:mr}:null;
+}
+function gymStreak(){
+  const s=S.gym.sessions;if(!s.length)return 0;
+  const dates=[...new Set(s.map(x=>x.date))].sort().reverse();
+  let streak=0,cur=new Date(tod());
+  for(const d of dates){const diff=Math.round((cur-new Date(d+"T12:00:00"))/86400000);if(diff<=1){streak++;cur=new Date(d+"T12:00:00");}else break;}
+  return streak;
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────
+function render(){
+  const a=app();a.innerHTML="";
+  if(S.phase==="loading"||S.loading){a.appendChild(spinPage());return;}
+  if(S.phase==="error"){a.appendChild(errPage());return;}
+  if(S.phase==="picker"){a.appendChild(pickerPage());return;}
+  if(S.phase==="app"){
+    a.appendChild(appSwitcher());
+    if(S.appTab==="finance")a.appendChild(financePage());
+    else a.appendChild(gymPage());
+    if(S.sheet)a.appendChild(sheetLayer());
+  }
+}
+
+function spinPage(){return div({style:{display:"flex",alignItems:"center",justifyContent:"center",height:"80vh",flexDirection:"column",gap:12}}),[div({cls:"spin",style:{width:40,height:40,borderRadius:"50%",border:"3px solid var(--b)",borderTopColor:"var(--em)"}}),div({style:{fontSize:13,color:"var(--t3)"}},"Loading…")];}
+function errPage(){
+  const w=div({style:{display:"flex",alignItems:"center",justifyContent:"center",height:"80vh",flexDirection:"column",gap:16,padding:24,textAlign:"center"}});
+  w.appendChild(ico("ti-wifi-off",{fontSize:40,color:"var(--t3)"}));
+  w.appendChild(div({style:{fontSize:15}},"Connection error"));
+  w.appendChild(btn({cls:"press",style:{background:"var(--em)",color:"#fff",border:"none",borderRadius:12,padding:"10px 24px",fontSize:14},onClick:init},"Retry"));
+  return w;
+}
+
+// ── PICKER ───────────────────────────────────────────────────────────────
+function pickerPage(){
+  const w=div({});
+  const hdr=div({cls:"grad",style:{padding:"3rem 1.5rem 2.5rem",textAlign:"center",borderRadius:"0 0 28px 28px"}});
+  hdr.appendChild(div({style:{width:64,height:64,borderRadius:20,background:"rgba(255,255,255,.18)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px"}},
+    [span({style:{fontSize:28,fontWeight:700,color:"var(--goldb)"}},"Rp")]));
+  hdr.appendChild(div({style:{fontSize:26,fontWeight:700,color:"#fff",letterSpacing:"-0.5px"}},"Wealth"));
+  hdr.appendChild(div({style:{fontSize:14,color:"rgba(255,255,255,.8)",marginTop:4}},"Finance & Fitness, beautifully tracked"));
+  w.appendChild(hdr);
+  const body=div({style:{padding:"1.5rem 1.25rem"}});
+  body.appendChild(div({style:{fontSize:13,fontWeight:600,color:"var(--t3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:14}},"Choose profile"));
+  const grid=div({style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}});
+  S.profiles.forEach((p,i)=>{
+    const card=div({cls:"spring",style:{position:"relative",animationDelay:(i*.06)+"s"}});
+    const b=btn({cls:"press card",style:{width:"100%",display:"flex",flexDirection:"column",alignItems:"center",gap:12,padding:"22px 12px"},onClick:()=>selectProfile(p.id)});
+    b.appendChild(div({style:{width:60,height:60,borderRadius:20,background:`linear-gradient(135deg,${p.color},${p.color}cc)`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:22,fontWeight:700}},ini(p.name)));
+    b.appendChild(div({style:{textAlign:"center"}},[div({style:{fontSize:15,fontWeight:600,color:"var(--t)"}},[p.name]),div({style:{fontSize:11,color:"var(--t3)",marginTop:2}},[(p.transactions||[]).length+" transactions"])]));
+    card.appendChild(b);
+    const db2=btn({style:{position:"absolute",top:8,right:8,width:26,height:26,borderRadius:9,background:"var(--s2)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"var(--t3)"},onClick:async e=>{e.stopPropagation();if(confirm("Delete "+p.name+"?")){await DEL("profiles",`?id=eq.${p.id}`);setS({profiles:S.profiles.filter(x=>x.id!==p.id)});}}});
+    db2.appendChild(ico("ti-trash",{fontSize:13}));card.appendChild(db2);
+    grid.appendChild(card);
+  });
+  if(S.profiles.length<8){
+    const ab=btn({cls:"press card",style:{display:"flex",flexDirection:"column",alignItems:"center",gap:12,padding:"22px 12px",border:"2px dashed var(--em)",width:"100%"},onClick:()=>{
+      const name=prompt("Enter your name:");
+      if(name&&name.trim())addProfile(name.trim(),PCOLORS[S.profiles.length%PCOLORS.length]);
+    }});
+    ab.appendChild(div({style:{width:60,height:60,borderRadius:20,background:"var(--s2)",display:"flex",alignItems:"center",justifyContent:"center"}},[ico("ti-plus",{fontSize:26,color:"var(--em)"})]));
+    ab.appendChild(div({style:{fontSize:14,fontWeight:600,color:"var(--em)"}},"Add person"));
+    grid.appendChild(ab);
+  }
+  body.appendChild(grid);
+  body.appendChild(div({style:{textAlign:"center",fontSize:11,color:"var(--t3)",marginTop:16}},"Data syncs to cloud. Share the URL with anyone."));
+  w.appendChild(body);return w;
+}
+
+async function selectProfile(id){
+  localStorage.setItem("w_pid",id);
+  S.activeId=id;S.phase="app";S.loading=true;S.fin={txns:[],accs:[],budgets:{},bRows:[],stocks:[],crypto:[],deps:[],loans:[],usdIdr:17850,sPrice:{},cPrice:{}};S.gym={days:[],sessions:[]};
+  render();
+  await Promise.all([loadFin(),loadGym()]);
+  setS({loading:false});
+  fetchPrices();
+}
+
+// ── APP SWITCHER ─────────────────────────────────────────────────────────
+function appSwitcher(){
+  const p=profile();
+  const w=div({style:{position:"sticky",top:0,zIndex:50,background:"var(--s)",borderBottom:"1px solid var(--b)",display:"flex",padding:"8px 16px 6px",gap:8}});
+  [["finance","ti-wallet","Finance"],["gym","ti-barbell","Gym"]].forEach(([id,icon,label])=>{
+    const active=S.appTab===id;
+    const b=btn({cls:"press",style:{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:7,padding:9,borderRadius:13,border:"none",background:active?(id==="finance"?"linear-gradient(135deg,#0E8C5E,#10B981)":"linear-gradient(135deg,#1565C0,#1976D2)"):"var(--s2)",color:active?"#fff":"var(--t2)",fontSize:13,fontWeight:600,backgroundSize:"200% 200%",animation:active?"shimmer 10s ease infinite":"none"},onClick:()=>setS({appTab:id})});
+    b.appendChild(ico(icon,{fontSize:17}));b.appendChild(document.createTextNode(label));w.appendChild(b);
+  });
+  const av=btn({style:{width:38,height:38,borderRadius:12,background:`linear-gradient(135deg,${p.color||"#0E8C5E"},${p.color||"#0E8C5E"}cc)`,border:"none",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer",flexShrink:0},onClick:()=>{localStorage.removeItem("w_pid");setS({activeId:null,phase:"picker",sheet:null});}},ini(p.name||"?"));
+  w.appendChild(av);return w;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// FINANCE
+// ══════════════════════════════════════════════════════════════════════════
+function financePage(){
+  const w=div({});
+  const tabs=[["home","ti-home-2","Home"],["budget","ti-chart-donut-3","Budget"],null,["portfolio","ti-trending-up","Wealth"],["history","ti-history","History"],["setup","ti-settings-2","Setup"]];
+  if(S.finTab==="home")w.appendChild(finHome());
+  else if(S.finTab==="budget")w.appendChild(finBudget());
+  else if(S.finTab==="portfolio")w.appendChild(finPortfolio());
+  else if(S.finTab==="history")w.appendChild(finHistory());
+  else if(S.finTab==="setup")w.appendChild(finSetup());
+  // nav
+  const nav=div({cls:"nav-wrap"});
+  const inner=div({cls:"nav-inner"});
+  tabs.forEach(t=>{
+    if(!t){
+      const plus=btn({cls:"press",style:{width:50,height:50,margin:"0 4px",borderRadius:"50%",background:"linear-gradient(135deg,#0E8C5E,#10B981)",backgroundSize:"200% 200%",animation:"shimmer 10s ease infinite",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 14px rgba(16,185,129,.45)"},onClick:()=>setS({sheet:{type:"quickadd",initial:null}})});
+      plus.appendChild(ico("ti-plus",{fontSize:26,color:"#fff"}));inner.appendChild(plus);return;
+    }
+    const [id,icon,label]=t;
+    const b=btn({cls:"nb"+(S.finTab===id?" on":""),onClick:()=>setS({finTab:id})});
+    b.appendChild(ico(icon,{fontSize:21}));b.appendChild(document.createTextNode(label));inner.appendChild(b);
+  });
+  nav.appendChild(inner);w.appendChild(nav);return w;
+}
+
+// ── FIN HOME ─────────────────────────────────────────────────────────────
+function finHome(){
+  const mt=monthTxns();
+  const income=mt.filter(t=>t.type==="income").reduce((s,t)=>s+t.amount,0);
+  const expense=mt.filter(t=>t.type==="expense").reduce((s,t)=>s+t.amount,0);
+  const net=income-expense;
+  const savRate=income>0?Math.round(net/income*100):0;
+  const totalBank=S.fin.accs.reduce((s,a)=>s+accBal(a.id),0);
+  const totalCash=cashRun();
+  const totalLiquid=totalBank+totalCash;
+  const allMonths=[...new Set(S.fin.txns.map(t=>mk(t.date)))].sort().reverse();
+  if(!allMonths.includes(nowM()))allMonths.unshift(nowM());
+  const expByCat={};mt.filter(t=>t.type==="expense").forEach(t=>{expByCat[t.category]=(expByCat[t.category]||0)+t.amount;});
+  const catList=Object.entries(expByCat).sort((a,b)=>b[1]-a[1]).slice(0,4);
+
+  const w=div({style:{paddingBottom:16}});
+  // header
+  const hdr=div({cls:"grad",style:{padding:"18px 18px 28px",borderRadius:"0 0 28px 28px",position:"relative",overflow:"hidden"}});
+  hdr.appendChild(div({style:{position:"absolute",top:"-40px",right:"-30px",width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.08)"}}));
+  const hTop=div({style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16,position:"relative",zIndex:1}});
+  const hLeft=div({});
+  hLeft.appendChild(div({style:{fontSize:11,color:"rgba(255,255,255,.7)"}},"Total liquid assets"));
+  hLeft.appendChild(div({style:{fontSize:34,fontWeight:800,color:"#fff",letterSpacing:"-1.5px",lineHeight:1.1}},"Rp "+fK(totalLiquid)));
+  hTop.appendChild(hLeft);
+  const mSel=h("select",{style:{fontSize:11,background:"rgba(255,255,255,.18)",color:"#fff",border:"none",borderRadius:10,padding:"6px 10px",fontWeight:600},onChange:e=>setS({month:e.target.value})});
+  allMonths.forEach(m=>{const o=h("option",{value:m,style:{color:"#000"}},m===S.month?[document.createTextNode(mLbl(m))]:[document.createTextNode(mLbl(m))]);if(m===S.month)o.selected=true;mSel.appendChild(o);});
+  hTop.appendChild(mSel);hdr.appendChild(hTop);
+  const stats=div({style:{display:"flex",gap:10,position:"relative",zIndex:1}});
+  [{l:"Income",v:income,c:"#86EFAC",i:"ti-arrow-down-left"},{l:"Expenses",v:expense,c:"#FCA5A5",i:"ti-arrow-up-right"}].forEach(({l,v,c,i})=>{
+    const s=div({style:{flex:1,background:"rgba(255,255,255,.15)",borderRadius:14,padding:"10px 12px"}});
+    const top=div({style:{display:"flex",alignItems:"center",gap:5,marginBottom:3}},[ico(i,{fontSize:13,color:c}),span({style:{fontSize:10,color:"rgba(255,255,255,.7)"}},l)]);
+    s.appendChild(top);s.appendChild(div({style:{fontSize:16,fontWeight:700,color:"#fff"}},"Rp "+fK(v)));stats.appendChild(s);
+  });
+  hdr.appendChild(stats);w.appendChild(hdr);
+
+  // chips
+  const chipRow=div({style:{display:"flex",gap:10,overflowX:"auto",padding:"14px 16px 0"}});
+  const chip=(label,val,icon,color)=>{
+    const c=div({cls:"card",style:{flexShrink:0,minWidth:120,padding:"12px 14px"}});
+    c.appendChild(div({style:{display:"flex",alignItems:"center",gap:6,marginBottom:6}},[div({style:{width:26,height:26,borderRadius:8,background:color+"1e",display:"flex",alignItems:"center",justifyContent:"center"}},[ico(icon,{fontSize:14,color})]),span({style:{fontSize:11,color:"var(--t2)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},label)]));
+    c.appendChild(div({style:{fontSize:16,fontWeight:700,color:"var(--t)"}},"Rp "+fK(val)));return c;
+  };
+  chipRow.appendChild(chip("Cash",totalCash,"ti-wallet","#D4A017"));
+  S.fin.accs.forEach(a=>chipRow.appendChild(chip(a.label,accBal(a.id),"ti-building-bank","#0E8C5E")));
+  w.appendChild(chipRow);
+
+  // savings ring
+  const ring=div({cls:"spring card",style:{margin:"14px 16px 0",padding:"14px 16px",display:"flex",alignItems:"center",gap:14}});
+  const ringColor=savRate>=20?"#10B981":savRate>=0?"#F59E0B":"#EF4444";
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("width","48");svg.setAttribute("height","48");svg.style.transform="rotate(-90deg)";svg.style.flexShrink="0";
+  [[`var(--s2)`,125.6,false],[ringColor,Math.max(0,Math.min(savRate,100))/100*125.6,true]].forEach(([stroke,dash,cap])=>{
+    const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    c.setAttribute("cx","24");c.setAttribute("cy","24");c.setAttribute("r","20");c.setAttribute("fill","none");c.setAttribute("stroke",stroke);c.setAttribute("stroke-width","5");
+    c.setAttribute("stroke-dasharray",`${dash} 125.6`);if(cap)c.setAttribute("stroke-linecap","round");svg.appendChild(c);
+  });
+  const rWrap=div({style:{position:"relative",width:48,height:48,flexShrink:0}});
+  rWrap.appendChild(svg);rWrap.appendChild(div({style:{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700}},savRate+"%"));
+  ring.appendChild(rWrap);
+  ring.appendChild(div({style:{flex:1}},[div({style:{fontSize:14,fontWeight:600}},"Savings rate"),div({style:{fontSize:12,color:"var(--t2)",marginTop:2}},savRate>=20?"Excellent! 🎯":savRate>=0?"Keep pushing":"Overspending")]));
+  w.appendChild(ring);
+
+  // top spending
+  if(catList.length){
+    const top=div({style:{margin:"14px 16px 0"}});
+    top.appendChild(div({style:{fontSize:13,fontWeight:700,marginBottom:12}},"Top spending"));
+    catList.forEach(([cat,amt])=>{
+      const c=ECATS.find(e=>e.label===cat)||{color:"#888",icon:"ti-dots"};
+      const pct=expense>0?Math.round(amt/expense*100):0;
+      const row=div({style:{display:"flex",alignItems:"center",gap:12,marginBottom:12}});
+      row.appendChild(div({style:{width:42,height:42,borderRadius:13,background:`${c.color}22`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}},[ico(c.icon,{fontSize:18,color:c.color})]));
+      const info=div({style:{flex:1,minWidth:0}});
+      info.appendChild(div({style:{display:"flex",justifyContent:"space-between",marginBottom:4}},[span({style:{fontSize:13,fontWeight:500}},cat),span({style:{fontSize:13,fontWeight:700}},"Rp "+fK(amt))]));
+      const bar=div({style:{height:6,borderRadius:99,background:"var(--s2)",overflow:"hidden"}});
+      bar.appendChild(div({style:{height:6,borderRadius:99,width:pct+"%",background:c.color}}));
+      info.appendChild(bar);row.appendChild(info);top.appendChild(row);
+    });
+    w.appendChild(top);
+  }
+
+  // recent
+  const rec=div({style:{margin:"14px 16px 0"}});
+  rec.appendChild(div({style:{fontSize:13,fontWeight:700,marginBottom:10}},"Recent activity"));
+  if(!mt.length)rec.appendChild(div({style:{textAlign:"center",padding:"2rem",color:"var(--t3)",fontSize:13}},"Tap + to log your first transaction."));
+  mt.slice(0,6).forEach(t=>rec.appendChild(txnRow(t)));
+  w.appendChild(rec);return w;
+}
+
+function txnRow(t){
+  const c=t.type==="expense"?ECATS.find(e=>e.label===t.category):ICATS.find(e=>e.label===t.category);
+  const color=c?.color||"#888",icon=c?.icon||"ti-tag";
+  const acc=S.fin.accs.find(a=>a.id===t.account_id);
+  const accLabel=(!t.account_id||t.account_id==="cash")?"Cash":acc?.label||"—";
+  const w=div({style:{position:"relative",marginBottom:8,borderRadius:16,overflow:"hidden"}});
+  const reveal=div({style:{position:"absolute",inset:0,background:"#EF4444",display:"flex",alignItems:"center",justifyContent:"flex-end",paddingRight:18,borderRadius:16}});
+  const db2=btn({style:{background:"none",border:"none",color:"#fff",cursor:"pointer"},onClick:async()=>{await DEL("transactions",`?id=eq.${t.id}`);S.fin.txns=S.fin.txns.filter(x=>x.id!==t.id);render();}});
+  db2.appendChild(ico("ti-trash",{fontSize:20}));reveal.appendChild(db2);w.appendChild(reveal);
+  let swiped=false;
+  const body=div({cls:"card",style:{position:"relative",display:"flex",alignItems:"center",gap:12,padding:"11px 12px",borderRadius:16,transition:"transform .25s"}});
+  const editBtn=btn({style:{width:42,height:42,borderRadius:13,background:`${color}22`,border:"none",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,cursor:"pointer"},onClick:()=>setS({sheet:{type:"quickadd",initial:t}})});
+  editBtn.appendChild(ico(icon,{fontSize:18,color}));body.appendChild(editBtn);
+  const info=div({style:{flex:1,minWidth:0,cursor:"pointer"},onClick:()=>setS({sheet:{type:"quickadd",initial:t}})});
+  info.appendChild(div({style:{fontSize:13,fontWeight:500,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},t.note||t.category));
+  info.appendChild(div({style:{fontSize:11,color:"var(--t3)"}},accLabel+" · "+t.date));
+  body.appendChild(info);
+  body.appendChild(div({style:{fontSize:14,fontWeight:700,color:t.type==="income"?"#10B981":"var(--t)",flexShrink:0}},(t.type==="income"?"+":"−")+fK(t.amount)));
+  const dots=btn({style:{background:"none",border:"none",color:"var(--t3)",cursor:"pointer",padding:2},onClick:()=>{swiped=!swiped;body.style.transform=swiped?"translateX(-60px)":"none";}});
+  dots.appendChild(ico("ti-dots-vertical",{fontSize:16}));body.appendChild(dots);
+  w.appendChild(body);return w;
+}
+
+// ── FIN BUDGET ────────────────────────────────────────────────────────────
+function finBudget(){
+  const mt=monthTxns();
+  const expByCat={};mt.filter(t=>t.type==="expense").forEach(t=>{expByCat[t.category]=(expByCat[t.category]||0)+t.amount;});
+  const totalBudget=Object.values(S.fin.budgets).reduce((s,v)=>s+v,0);
+  const totalSpent=Object.keys(S.fin.budgets).reduce((s,k)=>s+(expByCat[k]||0),0);
+  const under=totalBudget>0&&totalSpent<=totalBudget;
+  const w=div({style:{padding:"20px 16px 0"}});
+  w.appendChild(div({style:{fontSize:22,fontWeight:800,letterSpacing:"-0.5px"}},"Budget"));
+  w.appendChild(div({style:{fontSize:13,color:"var(--t3)",marginBottom:16}},mLbl(S.month)));
+  if(totalBudget>0){
+    const card=div({cls:"grad spring",style:{borderRadius:20,padding:18,marginBottom:16,position:"relative",overflow:"hidden"}});
+    if(under){const cf=div({style:{position:"absolute",inset:0,pointerEvents:"none",overflow:"hidden"}});Array.from({length:12}).forEach((_,i)=>{cf.appendChild(div({style:{position:"absolute",top:"-10px",left:(i/12*100)+"%",width:7,height:7,borderRadius:2,background:["#FFD23F","#10B981","#FCA5A5","#fff"][i%4],animation:`fall ${1+Math.random()}s ease-out ${Math.random()*.4}s forwards`}}));});card.appendChild(cf);}
+    card.appendChild(div({style:{fontSize:12,color:"rgba(255,255,255,.8)"}},"Spent of budget"));
+    card.appendChild(div({style:{fontSize:28,fontWeight:800,color:"#fff",letterSpacing:"-1px",marginTop:2}},"Rp "+fK(totalSpent)));
+    card.appendChild(div({style:{fontSize:12,color:"rgba(255,255,255,.7)",marginTop:2}},"of Rp "+fK(totalBudget)+" limit"));
+    const bar=div({style:{height:8,borderRadius:99,background:"rgba(255,255,255,.25)",marginTop:12,overflow:"hidden"}});
+    bar.appendChild(div({style:{height:8,borderRadius:99,width:Math.min(totalSpent/totalBudget*100,100)+"%",background:totalSpent>totalBudget?"#FCA5A5":"var(--goldb)"}}));
+    card.appendChild(bar);card.appendChild(div({style:{fontSize:12,color:"#fff",marginTop:8,fontWeight:600}},under?"✨ Within budget!":"⚠️ Over budget"));
+    w.appendChild(card);
+  }
+  ECATS.forEach(cat=>{
+    const spent=expByCat[cat.label]||0,budget=S.fin.budgets[cat.label]||0;
+    const pct=budget>0?Math.min(spent/budget*100,100):0,over=budget>0&&spent>budget;
+    const card=div({cls:"press card",style:{borderRadius:16,padding:"13px 14px",marginBottom:8,border:`1px solid ${over?"#EF4444":"var(--b)"}`,cursor:"pointer"},onClick:()=>{
+      const v=prompt("Budget limit for "+cat.label+" (Rp):",budget||"");
+      if(v===null)return;
+      const num=parseFloat(v.replace(/[^0-9.]/g,""));
+      if(isNaN(num)||num<=0)return;
+      const existing=S.fin.bRows.find(b=>b.category===cat.label);
+      const saveBudget=async()=>{
+        if(existing){await PATCH("budgets",`?id=eq.${existing.id}`,{amount:num});}
+        else{const row={id:uid(),profile_id:S.activeId,category:cat.label,amount:num};await POST("budgets",row);S.fin.bRows=[...S.fin.bRows,row];}
+        S.fin.budgets={...S.fin.budgets,[cat.label]:num};render();
+      };saveBudget();
+    }});
+    const top=div({style:{display:"flex",alignItems:"center",gap:11,marginBottom:budget>0?9:0}});
+    top.appendChild(div({style:{width:40,height:40,borderRadius:13,background:`${cat.color}22`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}},[ico(cat.icon,{fontSize:18,color:cat.color})]));
+    const info=div({style:{flex:1}});
+    const iRow=div({style:{display:"flex",justifyContent:"space-between",alignItems:"center"}});
+    iRow.appendChild(span({style:{fontSize:14,fontWeight:600}},cat.label));
+    const right=div({style:{display:"flex",alignItems:"center",gap:6}});
+    if(over)right.appendChild(span({style:{fontSize:10,background:"#FEE2E2",color:"#DC2626",padding:"2px 8px",borderRadius:99,fontWeight:700}},"Over"));
+    right.appendChild(span({style:{fontSize:13,fontWeight:700,color:over?"#EF4444":"var(--t)"}},budget>0?`${fK(spent)}/${fK(budget)}`:fK(spent)));
+    iRow.appendChild(right);info.appendChild(iRow);top.appendChild(info);
+    if(budget>0){
+      const db2=btn({style:{background:"none",border:"none",cursor:"pointer",color:"#EF4444",padding:4},onClick:async e=>{e.stopPropagation();const ex=S.fin.bRows.find(b=>b.category===cat.label);if(ex)await DEL("budgets",`?id=eq.${ex.id}`);delete S.fin.budgets[cat.label];render();}});
+      db2.appendChild(ico("ti-trash",{fontSize:14}));top.appendChild(db2);
+    }
+    card.appendChild(top);
+    if(budget>0){const bar=div({style:{height:6,borderRadius:99,background:"var(--s2)",overflow:"hidden"}});bar.appendChild(div({style:{height:6,borderRadius:99,width:pct+"%",background:over?"#EF4444":cat.color}}));card.appendChild(bar);}
+    w.appendChild(card);
+  });
+  return w;
+}
+
+// ── FIN PORTFOLIO ─────────────────────────────────────────────────────────
+function finPortfolio(){
+  const {stocks,crypto,deps,loans,usdIdr,sPrice,cPrice}=S.fin;
+  const sv=s=>(sPrice[s.ticker]||s.avg_buy)*s.shares;
+  const sg=s=>((sPrice[s.ticker]||s.avg_buy)-s.avg_buy)*s.shares;
+  const cv=c=>(cPrice[c.coin.toLowerCase()]||c.avg_buy)*c.amount;
+  const cg=c=>((cPrice[c.coin.toLowerCase()]||c.avg_buy)-c.avg_buy)*c.amount;
+  const dt=d=>d.principal*(1+d.rate/100*d.duration/12);
+  const dg=d=>d.principal*(d.rate/100*d.duration/12);
+  const lm=l=>Math.max(0,(new Date()-new Date(l.start_date))/(1e3*60*60*24*30.44));
+  const li=l=>l.principal*(l.rate/100)*(lm(l)/12);
+  const lt=l=>{const i=li(l);return l.currency==="USD"?(l.principal+i)*usdIdr:l.principal+i;};
+  const tS=stocks.reduce((s,x)=>s+sv(x),0),tC=crypto.reduce((s,x)=>s+cv(x),0);
+  const tD=deps.reduce((s,x)=>s+dt(x),0),tL=loans.reduce((s,x)=>s+lt(x),0);
+  const grand=tS+tC+tD+tL;
+  const alloc=[{l:"Stocks",v:tS,c:"#3B82F6"},{l:"Crypto",v:tC,c:"#F59E0B"},{l:"Deposits",v:tD,c:"#10B981"},{l:"Loans",v:tL,c:"#A855F7"}].filter(a=>a.v>0);
+
+  const w=div({style:{padding:"20px 16px 0"}});
+  const tRow=div({style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}});
+  tRow.appendChild(div({style:{fontSize:22,fontWeight:800,letterSpacing:"-0.5px"}},"Wealth"));
+  const refBtn=btn({cls:"press card",style:{padding:"7px 13px",color:"var(--em)",fontSize:12,borderRadius:12,display:"flex",alignItems:"center",gap:5},onClick:fetchPrices});
+  refBtn.appendChild(ico("ti-refresh",{fontSize:14}));refBtn.appendChild(document.createTextNode("Refresh"));
+  tRow.appendChild(refBtn);w.appendChild(tRow);
+
+  const hdr=div({cls:"grad spring",style:{borderRadius:22,padding:20,marginBottom:16,position:"relative",overflow:"hidden"}});
+  hdr.appendChild(div({style:{position:"absolute",top:"-30px",right:"-20px",width:130,height:130,borderRadius:"50%",background:"rgba(255,255,255,.08)"}}));
+  hdr.appendChild(div({style:{fontSize:12,color:"rgba(255,255,255,.75)"}},"Total portfolio"));
+  hdr.appendChild(div({style:{fontSize:32,fontWeight:800,color:"#fff",letterSpacing:"-1.5px",marginTop:2}},"Rp "+fK(grand)));
+  hdr.appendChild(div({style:{fontSize:11,color:"rgba(255,255,255,.6)",marginTop:3}},"USD/IDR "+Math.round(usdIdr).toLocaleString("id-ID")));
+  if(alloc.length){
+    const bar=div({style:{display:"flex",gap:3,height:8,borderRadius:99,overflow:"hidden",marginTop:14}});
+    alloc.forEach(a=>bar.appendChild(div({style:{flex:a.v,background:a.c}})));hdr.appendChild(bar);
+    const leg=div({style:{display:"flex",gap:12,marginTop:10,flexWrap:"wrap"}});
+    alloc.forEach(a=>{const l=div({style:{display:"flex",alignItems:"center",gap:5}});l.appendChild(div({style:{width:8,height:8,borderRadius:"50%",background:a.c}}));l.appendChild(span({style:{fontSize:11,color:"rgba(255,255,255,.85)",fontWeight:500}},a.l+" "+(grand>0?Math.round(a.v/grand*100):0)+"%"));leg.appendChild(l);});hdr.appendChild(leg);
+  }
+  w.appendChild(hdr);
+
+  function pSec(title,total,color,icon,rows){
+    if(!rows.length)return;
+    let open=true;
+    const sec=div({cls:"card spring",style:{borderRadius:18,marginBottom:12,overflow:"hidden"}});
+    let bodyEl;
+    const hd=div({style:{display:"flex",alignItems:"center",gap:11,padding:"13px 14px",cursor:"pointer"},onClick:()=>{open=!open;bodyEl.style.display=open?"block":"none";}});
+    hd.appendChild(div({style:{width:38,height:38,borderRadius:12,background:`${color}22`,display:"flex",alignItems:"center",justifyContent:"center"}},[ico(icon,{fontSize:18,color})]));
+    hd.appendChild(div({style:{flex:1,fontSize:14,fontWeight:600}},title));
+    hd.appendChild(div({style:{fontSize:15,fontWeight:700,marginRight:6}},"Rp "+fK(total)));
+    hd.appendChild(ico("ti-chevron-up",{fontSize:16,color:"var(--t3)"}));
+    sec.appendChild(hd);bodyEl=div({style:{borderTop:"1px solid var(--b)",padding:"4px 14px 12px"}});
+    rows.forEach(r=>bodyEl.appendChild(r));sec.appendChild(bodyEl);w.appendChild(sec);
+  }
+
+  function pRow(name,sub,val,gain,pct,extra){
+    const r=div({style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",padding:"9px 0",borderBottom:"1px solid var(--b)"}});
+    const left=div({});left.appendChild(div({style:{fontSize:14,fontWeight:600}},name));left.appendChild(div({style:{fontSize:11,color:"var(--t3)"}},sub));
+    if(extra)left.appendChild(div({style:{fontSize:11,color:"#10B981",marginTop:1}},extra));r.appendChild(left);
+    const right=div({style:{textAlign:"right"}});right.appendChild(div({style:{fontSize:14,fontWeight:700}},"Rp "+fK(val)));
+    right.appendChild(div({style:{fontSize:12,fontWeight:600,color:gain>=0?"#10B981":"#EF4444"}},(gain>=0?"▲":"▼")+" "+fK(Math.abs(gain))+" ("+(pct>=0?"+":"")+pct.toFixed(1)+"%)"));
+    r.appendChild(right);return r;
+  }
+
+  pSec("IDX Stocks",tS,"#3B82F6","ti-chart-candle",stocks.map(s=>{const g=sg(s);const pct=s.avg_buy>0?g/(s.avg_buy*s.shares)*100:0;const live=sPrice[s.ticker];return pRow(`${s.ticker}.JK`,`${s.shares} sh · avg Rp ${fK(s.avg_buy)}`,sv(s),g,pct,live?`Live: Rp ${fK(live)} (${(((live-s.avg_buy)/s.avg_buy)*100).toFixed(1)}% vs avg)`:"Tap Refresh for live price");}));
+  pSec("Crypto",tC,"#F59E0B","ti-currency-bitcoin",crypto.map(c=>{const g=cg(c);const cost=c.avg_buy*c.amount;const pct=cost>0?g/cost*100:0;return pRow(c.coin.toUpperCase(),`${c.amount} coins · avg Rp ${fK(c.avg_buy)}`,cv(c),g,pct);}));
+  pSec("Bank Deposits",tD,"#10B981","ti-pig-money",deps.map(d=>pRow(d.bank||"Deposit",`${d.rate}% p.a. · ${d.duration}mo`,dt(d),dg(d),d.rate/100*d.duration/12*100)));
+  pSec("Personal Loans",tL,"#A855F7","ti-users",loans.map(l=>{const i=li(l);return pRow(l.borrower,`${l.currency==="USD"?"$"+l.principal.toLocaleString():"Rp "+fK(l.principal)} · ${l.rate}%`,lt(l),l.currency==="USD"?i*usdIdr:i,l.rate);}));
+  if(!grand)w.appendChild(div({style:{textAlign:"center",padding:"3rem",color:"var(--t3)",fontSize:13}},"No assets yet. Add them in Setup."));
+  return w;
+}
+
+// ── FIN HISTORY ───────────────────────────────────────────────────────────
+function finHistory(){
+  const allMonths=[...new Set(S.fin.txns.map(t=>mk(t.date)))].sort().reverse();
+  if(!allMonths.includes(nowM()))allMonths.unshift(nowM());
+  let filter="all";
+  const w=div({style:{padding:"20px 16px 0"}});
+  const mSel=h("select",{style:{fontSize:20,fontWeight:800,color:"var(--t)",background:"none",border:"none",cursor:"pointer",outline:"none",letterSpacing:"-0.5px",marginBottom:12},onChange:e=>setS({month:e.target.value})});
+  allMonths.forEach(m=>{const o=h("option",{value:m},[document.createTextNode(mLbl(m))]);if(m===S.month)o.selected=true;mSel.appendChild(o);});
+  w.appendChild(mSel);
+  const fRow=div({style:{display:"flex",gap:8,marginBottom:14}});
+  ["all","income","expense"].forEach(f=>{
+    const b=btn({cls:"press",style:{padding:"7px 16px",borderRadius:99,fontSize:12,fontWeight:600,border:f===filter?"none":"1px solid var(--b)",background:f===filter?"var(--em)":"var(--s)",color:f===filter?"#fff":"var(--t2)",textTransform:"capitalize"},onClick:()=>{filter=f;fRow.querySelectorAll("button").forEach((b2,i)=>{const f2=["all","income","expense"][i];b2.style.background=f2===f?"var(--em)":"var(--s)";b2.style.color=f2===f?"#fff":"var(--t2)";b2.style.border=f2===f?"none":"1px solid var(--b)";});txnList.innerHTML="";getFiltered().forEach(t=>txnList.appendChild(txnRow(t)));}},f);
+    fRow.appendChild(b);
+  });
+  w.appendChild(fRow);
+  const mt=monthTxns();
+  const income=mt.filter(t=>t.type==="income").reduce((s,t)=>s+t.amount,0);
+  const expense=mt.filter(t=>t.type==="expense").reduce((s,t)=>s+t.amount,0);
+  const sRow=div({style:{display:"flex",gap:10,marginBottom:16}});
+  [{l:"Income",v:income,c:"#10B981"},{l:"Expenses",v:expense,c:"#EF4444"}].forEach(({l,v,c})=>{
+    const card=div({cls:"card",style:{flex:1,padding:"12px 14px"}});
+    card.appendChild(div({style:{fontSize:11,color:"var(--t3)"}},l));card.appendChild(div({style:{fontSize:17,fontWeight:700,color:c}},"Rp "+fK(v)));sRow.appendChild(card);
+  });
+  w.appendChild(sRow);
+  const getFiltered=()=>mt.filter(t=>filter==="all"||t.type===filter);
+  const txnList=div({});
+  getFiltered().forEach(t=>txnList.appendChild(txnRow(t)));
+  w.appendChild(txnList);return w;
+}
+
+// ── FIN SETUP ─────────────────────────────────────────────────────────────
+const SETUP_SECS=[{id:"accounts",label:"Banks",icon:"ti-building-bank",color:"#0E8C5E"},{id:"cash",label:"Cash",icon:"ti-wallet",color:"#D4A017"},{id:"stocks",label:"Stocks",icon:"ti-chart-candle",color:"#3B82F6"},{id:"crypto",label:"Crypto",icon:"ti-currency-bitcoin",color:"#F59E0B"},{id:"deposits",label:"Deposits",icon:"ti-pig-money",color:"#10B981"},{id:"loans",label:"Loans",icon:"ti-users",color:"#A855F7"}];
+let setupSec="accounts";
+
+function finSetup(){
+  const w=div({style:{padding:"20px 16px 0"}});
+  w.appendChild(div({style:{fontSize:22,fontWeight:800,letterSpacing:"-0.5px",marginBottom:14}},"Setup"));
+  const tabs=div({style:{display:"flex",gap:8,overflowX:"auto",paddingBottom:8,marginBottom:16}});
+  SETUP_SECS.forEach(s=>{
+    const active=setupSec===s.id;
+    const b=btn({cls:"press",style:{flexShrink:0,display:"flex",alignItems:"center",gap:6,padding:"8px 14px",borderRadius:13,border:`2px solid ${active?s.color:"var(--b)"}`,background:active?s.color+"18":"var(--s)",cursor:"pointer"},onClick:()=>{setupSec=s.id;render();}});
+    b.appendChild(ico(s.icon,{fontSize:15,color:active?s.color:"var(--t3)"}));b.appendChild(span({style:{fontSize:12,fontWeight:600,color:active?s.color:"var(--t2)",whiteSpace:"nowrap"}},s.label));tabs.appendChild(b);
+  });
+  w.appendChild(tabs);
+  if(setupSec==="accounts")w.appendChild(setupAccounts());
+  else if(setupSec==="cash")w.appendChild(setupCash());
+  else w.appendChild(setupAssets(setupSec));
+  return w;
+}
+
+function setupCard2(title,sub,extra,color,onEdit,onDel){
+  const card=div({cls:"card",style:{borderRadius:16,padding:"13px 14px",marginBottom:8}});
+  const row=div({style:{display:"flex",alignItems:"center",gap:12}});
+  const ico2=div({style:{width:40,height:40,borderRadius:13,background:`${color}22`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color,fontSize:12,fontWeight:700}},title.slice(0,4));
+  row.appendChild(ico2);
+  const info=div({style:{flex:1,minWidth:0}});
+  info.appendChild(div({style:{fontSize:14,fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},title));
+  info.appendChild(div({style:{fontSize:11,color:"var(--t3)"}},sub));
+  if(extra)info.appendChild(div({style:{fontSize:11,color:"#10B981",marginTop:1}},extra));
+  row.appendChild(info);
+  const btns=div({style:{display:"flex",flexDirection:"column",gap:6,flexShrink:0}});
+  const eb=btn({style:{width:30,height:30,borderRadius:9,background:`${color}18`,border:"none",cursor:"pointer",color,display:"flex",alignItems:"center",justifyContent:"center"},onClick:onEdit});
+  eb.appendChild(ico("ti-pencil",{fontSize:15}));btns.appendChild(eb);
+  let confirming=false;
+  const db2=btn({style:{width:30,height:30,borderRadius:9,background:"#FEE2E2",border:"none",cursor:"pointer",color:"#DC2626",display:"flex",alignItems:"center",justifyContent:"center"},onClick:()=>{if(confirming)onDel();else{confirming=true;db2.style.background="#DC2626";db2.style.color="#fff";db2.innerHTML="?";setTimeout(()=>{confirming=false;db2.style.background="#FEE2E2";db2.style.color="#DC2626";db2.innerHTML="";db2.appendChild(ico("ti-trash",{fontSize:15}));},2000);}}});
+  db2.appendChild(ico("ti-trash",{fontSize:15}));btns.appendChild(db2);row.appendChild(btns);card.appendChild(row);return card;
+}
+
+function setupAccounts(){
+  const w=div({});
+  w.appendChild(div({style:{fontSize:12,color:"var(--t3)",marginBottom:12}},"Balances update automatically from transactions."));
+  if(!S.fin.accs.length)w.appendChild(div({cls:"card",style:{textAlign:"center",padding:"1.5rem",marginBottom:12,fontSize:13,color:"var(--t3)"}},"No accounts yet."));
+  S.fin.accs.forEach(a=>{
+    w.appendChild(setupCard2(a.label,`Opening: Rp ${fK(a.opening_balance)} · Now: Rp ${fK(accBal(a.id))}`,"","#0E8C5E",
+      ()=>{const l=prompt("Account name:",a.label);const b=prompt("Opening balance (Rp):",a.opening_balance);if(l){PATCH("accounts",`?id=eq.${a.id}`,{label:l.trim(),opening_balance:+b||0}).then(()=>{S.fin.accs=S.fin.accs.map(x=>x.id===a.id?{...x,label:l.trim(),opening_balance:+b||0}:x);render();});}},
+      ()=>{DEL("accounts",`?id=eq.${a.id}`).then(()=>{S.fin.accs=S.fin.accs.filter(x=>x.id!==a.id);render();});}));
+  });
+  const ab=btn({cls:"addbtn",style:{color:"#0E8C5E",borderColor:"#0E8C5E"},onClick:()=>{
+    const l=prompt("Account name (e.g. BCA Savings):");const b=prompt("Current balance (Rp):");
+    if(l&&l.trim()){const row={id:uid(),profile_id:S.activeId,label:l.trim(),opening_balance:+b||0};POST("accounts",row).then(()=>{S.fin.accs=[...S.fin.accs,row];render();});}
+  }});ab.appendChild(ico("ti-plus",{fontSize:15}));ab.appendChild(document.createTextNode("Add bank account"));w.appendChild(ab);return w;
+}
+
+function setupCash(){
+  const w=div({});
+  w.appendChild(div({style:{fontSize:12,color:"var(--t3)",marginBottom:12}},"Physical cash on hand."));
+  const inp=h("input",{type:"number",cls:"inp",placeholder:"0",style:{fontSize:22,fontWeight:700}});
+  inp.value=profile().cash_balance||"";w.appendChild(inp);
+  const sb2=btn({cls:"press",style:{width:"100%",padding:13,borderRadius:12,background:"#D4A017",color:"#fff",border:"none",fontSize:14,fontWeight:600},onClick:async()=>{
+    await PATCH("profiles",`?id=eq.${S.activeId}`,{cash_balance:+inp.value||0});
+    S.profiles=S.profiles.map(p=>p.id===S.activeId?{...p,cash_balance:+inp.value||0}:p);
+    sb2.textContent="✓ Saved!";setTimeout(()=>{sb2.textContent="Save cash balance";},2000);
+  }},"Save cash balance");w.appendChild(sb2);return w;
+}
+
+function setupAssets(type){
+  const w=div({});
+  const sec=SETUP_SECS.find(s=>s.id===type);
+  const color=sec.color;
+  const items=S.fin[type]||[];
+
+  items.forEach(item=>{
+    let title,sub,extra,editFn,delFn;
+    if(type==="stocks"){
+      title=item.ticker+".JK";sub=`${item.shares} sh · avg Rp ${fK(item.avg_buy)}`;extra=`Cost: Rp ${fK(item.shares*item.avg_buy)}`;
+      editFn=()=>{const t=prompt("Ticker:",item.ticker);const s=prompt("Shares:",item.shares);const p=prompt("Avg buy price (Rp):",item.avg_buy);if(t&&s&&p)PATCH("stocks",`?id=eq.${item.id}`,{ticker:t.toUpperCase().trim(),shares:+s,avg_buy:+p}).then(()=>{S.fin.stocks=S.fin.stocks.map(x=>x.id===item.id?{...x,ticker:t.toUpperCase().trim(),shares:+s,avg_buy:+p}:x);render();});};
+      delFn=()=>DEL("stocks",`?id=eq.${item.id}`).then(()=>{S.fin.stocks=S.fin.stocks.filter(x=>x.id!==item.id);render();});
+    }else if(type==="crypto"){
+      title=item.coin.toUpperCase();sub=`${item.amount} coins · avg Rp ${fK(item.avg_buy)}`;extra=`Cost: Rp ${fK(item.amount*item.avg_buy)}`;
+      editFn=()=>{const c=prompt("Coin:",item.coin);const a=prompt("Amount:",item.amount);const p=prompt("Avg buy (Rp/coin):",item.avg_buy);if(c&&a&&p)PATCH("crypto",`?id=eq.${item.id}`,{coin:c.toLowerCase().trim(),amount:+a,avg_buy:+p}).then(()=>{S.fin.crypto=S.fin.crypto.map(x=>x.id===item.id?{...x,coin:c.toLowerCase().trim(),amount:+a,avg_buy:+p}:x);render();});};
+      delFn=()=>DEL("crypto",`?id=eq.${item.id}`).then(()=>{S.fin.crypto=S.fin.crypto.filter(x=>x.id!==item.id);render();});
+    }else if(type==="deposits"){
+      const ret=item.principal*(item.rate/100*item.duration/12);
+      title=item.bank||"Deposit";sub=`Rp ${fK(item.principal)} · ${item.rate}% · ${item.duration}mo`;extra=`Maturity: Rp ${fK(item.principal+ret)}`;
+      editFn=()=>{const b=prompt("Bank:",item.bank);const p=prompt("Principal (Rp):",item.principal);const r=prompt("Rate % p.a.:",item.rate);const d=prompt("Duration (months):",item.duration);if(p&&r&&d)PATCH("deposits",`?id=eq.${item.id}`,{bank:b||"",principal:+p,rate:+r,duration:+d}).then(()=>{S.fin.deps=S.fin.deps.map(x=>x.id===item.id?{...x,bank:b||"",principal:+p,rate:+r,duration:+d}:x);render();});};
+      delFn=()=>DEL("deposits",`?id=eq.${item.id}`).then(()=>{S.fin.deps=S.fin.deps.filter(x=>x.id!==item.id);render();});
+    }else{
+      const lmonths=Math.max(0,(new Date()-new Date(item.start_date))/(1e3*60*60*24*30.44));
+      const interest=item.principal*(item.rate/100)*(lmonths/12);
+      title=item.borrower;sub=`${item.currency==="USD"?"$"+item.principal.toLocaleString():"Rp "+fK(item.principal)} · ${item.rate}% · ${Math.round(lmonths)}mo`;extra=`Accrued: ${item.currency==="USD"?"$"+interest.toFixed(2):"Rp "+fK(interest)}`;
+      editFn=()=>{const b=prompt("Borrower:",item.borrower);const p=prompt("Principal:",item.principal);const c=prompt("Currency (IDR/USD):",item.currency);const r=prompt("Rate % p.a.:",item.rate);const sd=prompt("Start date (YYYY-MM-DD):",item.start_date);if(b&&p&&r)PATCH("loans",`?id=eq.${item.id}`,{borrower:b.trim(),principal:+p,currency:(c||"IDR").toUpperCase(),rate:+r,start_date:sd||item.start_date}).then(()=>{S.fin.loans=S.fin.loans.map(x=>x.id===item.id?{...x,borrower:b.trim(),principal:+p,currency:(c||"IDR").toUpperCase(),rate:+r,start_date:sd||item.start_date}:x);render();});};
+      delFn=()=>DEL("loans",`?id=eq.${item.id}`).then(()=>{S.fin.loans=S.fin.loans.filter(x=>x.id!==item.id);render();});
+    }
+    w.appendChild(setupCard2(title,sub,extra,color,editFn,delFn));
+  });
+
+  const labels={stocks:"Add stock",crypto:"Add crypto",deposits:"Add deposit",loans:"Add loan"};
+  const ab=btn({cls:"addbtn",style:{color,borderColor:color},onClick:()=>{
+    if(type==="stocks"){const t=prompt("Ticker (e.g. SINI, BBCA):");const s=prompt("Shares:");const p=prompt("Avg buy price (Rp/share):");if(t&&s&&p){const row={id:uid(),profile_id:S.activeId,ticker:t.toUpperCase().trim(),shares:+s,avg_buy:+p};POST("stocks",row).then(()=>{S.fin.stocks=[...S.fin.stocks,row];render();});}}
+    else if(type==="crypto"){const c=prompt("Coin (e.g. BTC, ETH):");const a=prompt("Amount:");const p=prompt("Avg buy price (Rp/coin):");if(c&&a&&p){const row={id:uid(),profile_id:S.activeId,coin:c.toLowerCase().trim(),amount:+a,avg_buy:+p};POST("crypto",row).then(()=>{S.fin.crypto=[...S.fin.crypto,row];render();});}}
+    else if(type==="deposits"){const b=prompt("Bank name:");const p=prompt("Principal (Rp):");const r=prompt("Interest rate % p.a.:");const d=prompt("Duration (months):");if(p&&r&&d){const row={id:uid(),profile_id:S.activeId,bank:b||"",principal:+p,rate:+r,duration:+d};POST("deposits",row).then(()=>{S.fin.deps=[...S.fin.deps,row];render();});}}
+    else{const b=prompt("Borrower name:");const p=prompt("Principal:");const c=prompt("Currency (IDR or USD):")||"IDR";const r=prompt("Rate % p.a.:");const sd=prompt("Start date (YYYY-MM-DD):")||tod();if(b&&p&&r){const row={id:uid(),profile_id:S.activeId,borrower:b.trim(),principal:+p,currency:c.toUpperCase(),rate:+r,start_date:sd};POST("loans",row).then(()=>{S.fin.loans=[...S.fin.loans,row];render();});}}
+  }});
+  ab.appendChild(ico("ti-plus",{fontSize:15}));ab.appendChild(document.createTextNode(labels[type]));w.appendChild(ab);return w;
+}
+
+// ── QUICK ADD SHEET ───────────────────────────────────────────────────────
+function sheetLayer(){
+  if(S.sheet?.type==="quickadd")return quickAddSheet(S.sheet.initial);
+  return div({});
+}
+
+function quickAddSheet(initial){
+  const isEdit=!!initial?.id;
+  let type=initial?.type||"expense";
+  let amount=initial?.amount?String(initial.amount):"";
+  let cat=[...ECATS,...ICATS].find(c=>c.label===initial?.category)||(type==="expense"?ECATS[0]:ICATS[0]);
+  let accountId=initial?.account_id||"cash";
+  let note=initial?.note||"";
+  let date=initial?.date||tod();
+  const accent=()=>type==="expense"?"#EF4444":"#10B981";
+
+  const bg=div({cls:"sheet-bg",onClick:()=>setS({sheet:null})});
+  const sheet=div({cls:"sheet",onClick:e=>e.stopPropagation()});
+  sheet.appendChild(div({cls:"handle"}));
+
+  function rebuild(){
+    while(sheet.children.length>1)sheet.removeChild(sheet.lastChild);
+    const cats=type==="expense"?ECATS:ICATS;
+    const ac=accent();
+
+    const titleRow=div({style:{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"4px 18px 0"}});
+    titleRow.appendChild(span({style:{fontSize:15,fontWeight:700}},isEdit?"Edit":"New transaction"));
+    const xb=btn({style:{background:"var(--s2)",border:"none",borderRadius:10,width:32,height:32,cursor:"pointer",color:"var(--t2)",display:"flex",alignItems:"center",justifyContent:"center"},onClick:()=>setS({sheet:null})});
+    xb.appendChild(ico("ti-x",{fontSize:18}));titleRow.appendChild(xb);sheet.appendChild(titleRow);
+
+    const tog=div({style:{display:"flex",margin:"10px 18px 0",background:"var(--s2)",borderRadius:14,padding:4,gap:4}});
+    ["expense","income"].forEach(t=>{
+      const b=btn({cls:"press",style:{flex:1,padding:10,borderRadius:11,border:"none",background:type===t?ac:"transparent",color:type===t?"#fff":"var(--t2)",fontSize:14,fontWeight:600,textTransform:"capitalize"},onClick:()=>{type=t;cat=t==="expense"?ECATS[0]:ICATS[0];rebuild();}},t);tog.appendChild(b);
+    });sheet.appendChild(tog);
+
+    const dateRow=div({style:{padding:"10px 18px 0",display:"flex",alignItems:"center",gap:6}});
+    dateRow.appendChild(ico("ti-calendar",{fontSize:15,color:"var(--t3)"}));
+    const dInp=h("input",{type:"date",style:{fontSize:13,border:"none",background:"none",color:"var(--t2)",outline:"none"}});
+    dInp.value=date;dInp.addEventListener("change",e=>{date=e.target.value;});dateRow.appendChild(dInp);sheet.appendChild(dateRow);
+
+    const amtDisplay=div({style:{textAlign:"center",padding:"6px 18px 4px"}});
+    amtDisplay.appendChild(div({style:{fontSize:11,color:"var(--t3)"}},"Amount (Rp)"));
+    const amtNum=div({style:{fontSize:40,fontWeight:800,color:amount?ac:"var(--t3)",letterSpacing:"-1.5px",minHeight:48}},amount?Number(amount).toLocaleString("id-ID"):"0");
+    amtDisplay.appendChild(amtNum);sheet.appendChild(amtDisplay);
+
+    const accSec=div({style:{padding:"0 18px 8px"}});
+    accSec.appendChild(div({style:{fontSize:11,color:"var(--t3)",marginBottom:6,fontWeight:600}},"ACCOUNT"));
+    const accRow=div({style:{display:"flex",gap:8,overflowX:"auto",paddingBottom:4}});
+    [{id:"cash",label:"Cash",color:"#D4A017",icon:"ti-wallet"},...S.fin.accs.map(a=>({...a,color:"#0E8C5E",icon:"ti-building-bank"}))].forEach(a=>{
+      const active=accountId===a.id;
+      const b=btn({cls:"press",style:{flexShrink:0,display:"flex",alignItems:"center",gap:6,padding:"8px 13px",borderRadius:12,border:`2px solid ${active?a.color:"var(--b)"}`,background:active?a.color+"18":"var(--s2)",cursor:"pointer"},onClick:()=>{accountId=a.id;rebuild();}});
+      b.appendChild(ico(a.icon,{fontSize:14,color:active?a.color:"var(--t3)"}));b.appendChild(span({style:{fontSize:12,fontWeight:500,color:active?a.color:"var(--t2)",whiteSpace:"nowrap"}},a.label));accRow.appendChild(b);
+    });accSec.appendChild(accRow);sheet.appendChild(accSec);
+
+    const catSec=div({style:{padding:"0 18px 8px"}});
+    catSec.appendChild(div({style:{fontSize:11,color:"var(--t3)",marginBottom:6,fontWeight:600}},"CATEGORY"));
+    const catRow=div({style:{display:"flex",gap:8,overflowX:"auto",paddingBottom:4}});
+    cats.forEach(c=>{
+      const active=cat.id===c.id;
+      const b=btn({cls:"press",style:{flexShrink:0,display:"flex",flexDirection:"column",alignItems:"center",gap:4,padding:"8px 11px",borderRadius:14,border:`2px solid ${active?c.color:"var(--b)"}`,background:active?c.color+"18":"var(--s2)",cursor:"pointer",minWidth:58},onClick:()=>{cat=c;rebuild();}});
+      b.appendChild(ico(c.icon,{fontSize:19,color:active?c.color:"var(--t3)"}));b.appendChild(span({style:{fontSize:9,fontWeight:500,color:active?c.color:"var(--t3)",whiteSpace:"nowrap"}},c.label));catRow.appendChild(b);
+    });catSec.appendChild(catRow);sheet.appendChild(catSec);
+
+    const noteWrap=div({style:{padding:"0 18px 8px"}});
+    const noteInp=h("input",{type:"text",cls:"inp",placeholder:"Note (optional)",style:{marginBottom:0}});
+    noteInp.value=note;noteInp.addEventListener("input",e=>{note=e.target.value;});noteWrap.appendChild(noteInp);sheet.appendChild(noteWrap);
+
+    const pad=div({style:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,padding:"0 14px 8px"}});
+    ["1","2","3","4","5","6","7","8","9",".","0","⌫"].forEach(v=>{
+      const b=btn({cls:"press",style:{padding:14,fontSize:21,fontWeight:600,background:"var(--s2)",border:"none",borderRadius:13,cursor:"pointer"},onClick:()=>{
+        if(v==="⌫")amount=amount.slice(0,-1);
+        else if(v==="."&&amount.includes("."))return;
+        else if(amount==="0"&&v!==".")amount=v;
+        else amount=(amount+v).slice(0,12);
+        amtNum.textContent=amount?Number(amount).toLocaleString("id-ID"):"0";
+        amtNum.style.color=amount?accent():"var(--t3)";
+      }});
+      if(v==="⌫"){b.innerHTML="";b.appendChild(ico("ti-backspace",{fontSize:20}));}
+      pad.appendChild(b);
+    });sheet.appendChild(pad);
+
+    const savWrap=div({style:{padding:"4px 18px 14px"}});
+    const saveBtn=btn({cls:"press",style:{width:"100%",padding:16,borderRadius:16,border:"none",background:(!amount||+amount===0)?"var(--b)":`linear-gradient(135deg,${ac},${ac}cc)`,color:"#fff",fontSize:16,fontWeight:700,cursor:"pointer"},onClick:async()=>{
+      if(!amount||+amount===0)return;
+      saveBtn.textContent="Saving…";
+      const row={id:initial?.id||uid(),type,amount:+amount,category:cat.label,cat_id:cat.id,account_id:accountId,note,date,profile_id:S.activeId};
+      if(S.fin.txns.find(x=>x.id===row.id)){await PATCH("transactions",`?id=eq.${row.id}`,row);S.fin.txns=S.fin.txns.map(x=>x.id===row.id?{...x,...row}:x);}
+      else{await POST("transactions",row);S.fin.txns=[row,...S.fin.txns];}
+      setS({sheet:null});
+    }},isEdit?"Update":"Save "+type);
+    savWrap.appendChild(saveBtn);sheet.appendChild(savWrap);
+  }
+  rebuild();bg.appendChild(sheet);return bg;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// GYM
+// ══════════════════════════════════════════════════════════════════════════
+function gymPage(){
+  const {days,sessions}=S.gym;
+  const prs=gymPRs();
+  const w=div({});
+
+  const hdr=div({cls:"gym-grad",style:{padding:"18px 18px",position:"relative",overflow:"hidden"}});
+  hdr.appendChild(div({style:{position:"absolute",top:"-30px",right:"-20px",width:130,height:130,borderRadius:"50%",background:"rgba(255,255,255,.08)"}}));
+  hdr.appendChild(div({style:{fontSize:22,fontWeight:800,color:"#fff",letterSpacing:"-0.5px",marginBottom:14,position:"relative"}},"Gym Tracker"));
+  const stats=div({style:{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,position:"relative"}});
+  [[sessions.length,"Sessions","ti-calendar"],[Object.keys(prs).length,"PRs","ti-trophy"],[gymStreak()+"d","Streak","ti-flame"]].forEach(([v,l,ic])=>{
+    const s=div({style:{background:"rgba(255,255,255,.12)",borderRadius:12,padding:10,textAlign:"center"}});
+    s.appendChild(ico(ic,{fontSize:17,color:"rgba(255,255,255,.7)",display:"block",marginBottom:3}));
+    s.appendChild(div({style:{fontSize:19,fontWeight:700,color:"#fff"}},String(v)));
+    s.appendChild(div({style:{fontSize:10,color:"rgba(255,255,255,.55)"}},l));stats.appendChild(s);
+  });
+  hdr.appendChild(stats);w.appendChild(hdr);
+
+  const body=div({style:{padding:"0 16px"}});
+  if(S.gymTab==="log")body.appendChild(gymLog(prs));
+  else if(S.gymTab==="history")body.appendChild(gymHistory(prs));
+  else if(S.gymTab==="prs")body.appendChild(gymPRsPage(prs));
+  else if(S.gymTab==="routine")body.appendChild(gymRoutine());
+  w.appendChild(body);
+
+  const nav=div({cls:"nav-wrap"});
+  const inner=div({cls:"nav-inner"});
+  [["log","ti-plus","Log"],["history","ti-history","History"],["prs","ti-trophy","PRs"],["routine","ti-settings-2","Routine"]].forEach(([id,icon,label])=>{
+    const b=btn({cls:"nb"+(S.gymTab===id?" on":""),onClick:()=>setS({gymTab:id})});
+    b.appendChild(ico(icon,{fontSize:21}));b.appendChild(document.createTextNode(label));inner.appendChild(b);
+  });
+  nav.appendChild(inner);w.appendChild(nav);return w;
+}
+
+function gymLog(prs){
+  const {days}=S.gym;
+  if(!S._gymLogDayId){
+    const w=div({style:{paddingTop:16}});
+    w.appendChild(div({style:{fontSize:14,color:"var(--t2)",marginTop:0,marginBottom:14}},"What are you training today?"));
+    const grid=div({style:{display:"grid",gridTemplateColumns:days.length<=3?`repeat(${days.length},1fr)`:"repeat(3,1fr)",gap:10}});
+    days.forEach((d,i)=>{
+      const b=btn({cls:"press",style:{background:"var(--s)",border:`2px solid ${DAYC[i%5]}`,borderRadius:16,padding:"14px 8px",cursor:"pointer",textAlign:"center"},onClick:()=>{
+        S._gymLogDayId=d.id;S._gymLogSets={};d.exercises.forEach(ex=>{S._gymLogSets[ex]=[{id:uid(),weight:"",reps:""}];});S._gymLogDate=tod();render();
+      }});
+      b.appendChild(ico(d.icon||"ti-barbell",{fontSize:22,color:DAYC[i%5],display:"block",marginBottom:6}));
+      b.appendChild(div({style:{fontSize:12,fontWeight:600,display:"block"}},d.label));
+      b.appendChild(div({style:{fontSize:10,color:"var(--t3)"}},d.exercises.length+" exercises"));
+      grid.appendChild(b);
+    });
+    w.appendChild(grid);return w;
+  }
+
+  const day=days.find(d=>d.id===S._gymLogDayId);
+  if(!day){S._gymLogDayId=null;return gymLog(prs);}
+  const dayIdx=days.findIndex(d=>d.id===S._gymLogDayId);
+  const bgColor=DAYC[dayIdx%5];
+  const w=div({style:{paddingTop:12}});
+
+  const hdrRow=div({style:{background:bgColor,borderRadius:16,padding:"12px 16px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between"}});
+  const backBtn=btn({style:{background:"rgba(255,255,255,.2)",border:"none",borderRadius:9,cursor:"pointer",color:"#fff",padding:"5px 10px",display:"flex",alignItems:"center",gap:4,fontSize:12,fontWeight:600},onClick:()=>{S._gymLogDayId=null;S._gymLogSets={};render();}});
+  backBtn.appendChild(ico("ti-arrow-left",{fontSize:13}));backBtn.appendChild(document.createTextNode("Back"));
+  hdrRow.appendChild(div({style:{display:"flex",alignItems:"center",gap:10}},[backBtn,div({style:{fontSize:15,fontWeight:700,color:"#fff"}},day.label+" Day")]));
+  const dInp=h("input",{type:"date",style:{fontSize:11,border:"none",background:"rgba(255,255,255,.2)",color:"#fff",borderRadius:9,padding:"5px 10px",fontWeight:600}});
+  dInp.value=S._gymLogDate||tod();dInp.addEventListener("change",e=>{S._gymLogDate=e.target.value;});hdrRow.appendChild(dInp);w.appendChild(hdrRow);
+
+  day.exercises.forEach(ex=>{
+    const curPR=prs[ex];const target=gymTargets(ex);const rows=S._gymLogSets[ex]||[];
+    const card=div({cls:"card",style:{borderRadius:14,marginBottom:10,overflow:"hidden"}});
+    const cHdr=div({style:{background:"var(--s2)",padding:"10px 14px",borderBottom:"1px solid var(--b)"}});
+    const topRow=div({style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:target?6:0}});
+    topRow.appendChild(div({style:{fontSize:14,fontWeight:700}},ex));
+    if(curPR)topRow.appendChild(span({style:{fontSize:11,color:"var(--t3)"}},`PR: ${curPR.weight}kg×${curPR.reps}`));
+    cHdr.appendChild(topRow);
+    if(target){const tb=div({style:{display:"flex",gap:8,alignItems:"center"}});const tp=div({style:{display:"flex",alignItems:"center",gap:5,background:"#1565C0",borderRadius:8,padding:"4px 10px"}});tp.appendChild(ico("ti-target",{fontSize:12,color:"#fff"}));tp.appendChild(span({style:{fontSize:11,color:"#fff",fontWeight:600}},`Target ${target.weight}kg × ${target.reps}`));tb.appendChild(tp);cHdr.appendChild(tb);}
+    card.appendChild(cHdr);
+
+    const body=div({style:{padding:"10px 14px"}});
+    const grid2=div({style:{display:"grid",gridTemplateColumns:"28px 1fr 1fr 28px",gap:"5px 8px",alignItems:"center",marginBottom:8}});
+    ["#","Weight (kg)","Reps",""].forEach((label,i)=>grid2.appendChild(span({style:{fontSize:11,color:"var(--t3)",textAlign:i===0?"center":"left"}},label)));
+
+    const renderRows=()=>{
+      while(grid2.children.length>4)grid2.removeChild(grid2.lastChild);
+      rows.forEach((r,ri)=>{
+        const isPR=curPR&&r.weight&&r.reps&&e1rm(+r.weight,+r.reps)>curPR.e1rm;
+        grid2.appendChild(div({style:{textAlign:"center",fontSize:12,height:36,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:9,background:isPR?"#1565C0":"var(--s2)",color:isPR?"#fff":"var(--t2)",fontWeight:700}},String(ri+1)));
+        const wI=h("input",{type:"number",inputmode:"decimal",style:{fontSize:15,padding:"7px 10px",borderRadius:9,border:"1px solid var(--b)",background:"var(--bg)",color:"var(--t)",width:"100%",textAlign:"right",outline:"none"}});
+        wI.placeholder=target?String(target.weight):"0";wI.value=r.weight;wI.addEventListener("input",e=>{r.weight=e.target.value;});grid2.appendChild(wI);
+        const rI=h("input",{type:"number",inputmode:"numeric",style:{fontSize:15,padding:"7px 10px",borderRadius:9,border:"1px solid var(--b)",background:"var(--bg)",color:"var(--t)",width:"100%",textAlign:"right",outline:"none"}});
+        rI.placeholder=target?String(target.reps):"0";rI.value=r.reps;rI.addEventListener("input",e=>{r.reps=e.target.value;});grid2.appendChild(rI);
+        const db2=btn({style:{background:"none",border:"none",cursor:rows.length===1?"default":"pointer",color:"var(--t3)",opacity:rows.length===1?0.2:1,padding:2},onClick:()=>{if(rows.length>1){S._gymLogSets[ex]=rows.filter(x=>x.id!==r.id);renderRows();}}});
+        db2.appendChild(ico("ti-x",{fontSize:14}));grid2.appendChild(db2);
+      });
+    };
+    renderRows();body.appendChild(grid2);
+
+    const addSetBtn=btn({style:{display:"flex",alignItems:"center",gap:5,fontSize:12,fontWeight:600,color:"#1565C0",background:"var(--s2)",border:"none",borderRadius:9,padding:"6px 12px",cursor:"pointer"},onClick:()=>{S._gymLogSets[ex]=[...rows,{id:uid(),weight:"",reps:""}];renderRows();}});
+    addSetBtn.appendChild(ico("ti-plus",{fontSize:12}));addSetBtn.appendChild(document.createTextNode("Add set"));body.appendChild(addSetBtn);card.appendChild(body);w.appendChild(card);
+  });
+
+  const saveBtn=btn({cls:"press",style:{width:"100%",padding:15,marginTop:4,marginBottom:16,background:bgColor,color:"#fff",border:"none",borderRadius:16,fontSize:15,fontWeight:700,cursor:"pointer"},onClick:async()=>{
+    const exercises=Object.entries(S._gymLogSets).map(([name,rows])=>({name,sets:rows.filter(r=>r.weight&&r.reps).map(r=>({weight:+r.weight,reps:+r.reps}))})).filter(e=>e.sets.length);
+    if(!exercises.length)return;
+    saveBtn.textContent="Saving…";
+    const sessId=uid();
+    const row={id:sessId,profile_id:S.activeId,day_id:S._gymLogDayId,date:S._gymLogDate||tod()};
+    await POST("workout_sessions",row);
+    for(const ex of exercises)for(const s of ex.sets)await POST("workout_sets",{id:uid(),session_id:sessId,exercise_name:ex.name,weight:s.weight,reps:s.reps});
+    S.gym.sessions=[{...row,exercises},...S.gym.sessions];
+    S._gymLogDayId=null;S._gymLogSets={};
+    setS({gymTab:"history"});
+  }},"Save workout");
+  w.appendChild(saveBtn);return w;
+}
+
+function gymHistory(prs){
+  const {sessions,days}=S.gym;
+  const w=div({style:{paddingTop:16}});
+  if(!sessions.length){w.appendChild(div({style:{textAlign:"center",padding:"3rem",color:"var(--t3)"}},[ico("ti-barbell",{fontSize:36,display:"block",marginBottom:12}),div({style:{fontSize:14}},"No workouts yet.")]));return w;}
+  sessions.forEach(s=>{
+    const dayDef=days.find(d=>d.id===s.day_id);const di=days.findIndex(d=>d.id===s.day_id);const bg=DAYC[di%5]||"#1565C0";
+    const hasPR=s.exercises.some(ex=>{const pr=prs[ex.name];return pr&&pr.date===s.date;});
+    const vol=s.exercises.reduce((t,ex)=>t+ex.sets.reduce((s2,set)=>s2+set.weight*set.reps,0),0);
+    const card=div({cls:"card",style:{borderRadius:16,marginBottom:10,overflow:"hidden"}});
+    const hdrRow=div({style:{background:bg,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}});
+    const left=div({style:{display:"flex",alignItems:"center",gap:8}});
+    left.appendChild(div({style:{fontSize:14,fontWeight:700,color:"#fff"}},dayDef?dayDef.label+" Day":"Workout"));
+    left.appendChild(span({style:{fontSize:11,color:"rgba(255,255,255,.7)"}},s.date));
+    if(hasPR)left.appendChild(span({style:{fontSize:10,background:"rgba(255,255,255,.25)",color:"#fff",padding:"2px 7px",borderRadius:99,fontWeight:600}},"🏆 PR"));
+    hdrRow.appendChild(left);
+    const right2=div({style:{display:"flex",alignItems:"center",gap:8}});
+    right2.appendChild(span({style:{fontSize:11,color:"rgba(255,255,255,.7)"}},`Vol: ${Math.round(vol)}kg`));
+    let conf=false;
+    const db2=btn({style:{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"4px 10px",cursor:"pointer",color:"#fff",fontSize:12,fontWeight:600},onClick:async()=>{if(conf){await DEL("workout_sets",`?session_id=eq.${s.id}`);await DEL("workout_sessions",`?id=eq.${s.id}`);S.gym.sessions=S.gym.sessions.filter(x=>x.id!==s.id);render();}else{conf=true;db2.textContent="Confirm";db2.style.background="rgba(255,80,80,.5)";setTimeout(()=>{conf=false;db2.textContent="Delete";db2.style.background="rgba(255,255,255,.2)";},2000);}}},"Delete");
+    right2.appendChild(db2);hdrRow.appendChild(right2);card.appendChild(hdrRow);
+    const body=div({style:{padding:"10px 14px",display:"flex",flexDirection:"column",gap:6}});
+    s.exercises.forEach(ex=>{
+      const pr=prs[ex.name];const exPR=pr&&pr.date===s.date;
+      const row=div({style:{display:"flex",alignItems:"flex-start",justifyContent:"space-between",padding:"8px 10px",background:"var(--s2)",borderRadius:11}});
+      const l=div({});
+      const nRow=div({style:{display:"flex",alignItems:"center",gap:6,marginBottom:2}});
+      nRow.appendChild(div({style:{fontSize:13,fontWeight:600}},ex.name));
+      if(exPR)nRow.appendChild(ico("ti-trophy",{fontSize:13,color:"#F59E0B"}));
+      l.appendChild(nRow);l.appendChild(div({style:{fontSize:11,color:"var(--t3)"}},ex.sets.map(s=>`${s.weight}kg×${s.reps}`).join(" · ")));
+      row.appendChild(l);row.appendChild(div({style:{fontSize:12,fontWeight:700}},Math.round(ex.sets.reduce((t,s)=>t+s.weight*s.reps,0))+"kg"));
+      body.appendChild(row);
+    });
+    card.appendChild(body);w.appendChild(card);
+  });return w;
+}
+
+function gymPRsPage(prs){
+  const entries=Object.entries(prs).sort((a,b)=>a[0].localeCompare(b[0]));
+  const PAL=["#1565C0","#1976D2","#1E88E5","#42A5F5","#0D47A1"];
+  const w=div({style:{paddingTop:16}});
+  if(!entries.length){w.appendChild(div({style:{textAlign:"center",padding:"3rem",color:"var(--t3)"}},[ico("ti-trophy",{fontSize:36,display:"block",marginBottom:12}),div({style:{fontSize:14}},"Log workouts to track PRs!")]));return w;}
+  w.appendChild(div({style:{fontSize:13,color:"var(--t2)",marginTop:0,marginBottom:14}},"Estimated 1-rep max per exercise."));
+  entries.forEach(([name,pr],i)=>{
+    const card=div({cls:"spring card",style:{display:"flex",alignItems:"center",padding:"14px 16px",marginBottom:8,borderLeft:`4px solid ${PAL[i%PAL.length]}`,animationDelay:(i*.04)+"s"}});
+    card.appendChild(div({style:{width:38,height:38,borderRadius:12,background:`${PAL[i%PAL.length]}18`,display:"flex",alignItems:"center",justifyContent:"center",marginRight:14,flexShrink:0}},[ico("ti-trophy",{fontSize:18,color:PAL[i%PAL.length]})]));
+    const info=div({style:{flex:1,minWidth:0}});
+    info.appendChild(div({style:{fontSize:14,fontWeight:600,marginBottom:1}},name));
+    info.appendChild(div({style:{fontSize:12,color:"var(--t3)"}},`${pr.weight}kg × ${pr.reps} · ${pr.date}`));
+    card.appendChild(info);
+    const right2=div({style:{textAlign:"right",flexShrink:0}});
+    right2.appendChild(div({style:{fontSize:22,fontWeight:800}},pr.e1rm+"kg"));
+    right2.appendChild(div({style:{fontSize:10,color:"var(--t3)"}},"est. 1RM"));
+    card.appendChild(right2);w.appendChild(card);
+  });return w;
+}
+
+function gymRoutine(){
+  const {days}=S.gym;
+  if(!S._gymRoutineIdx)S._gymRoutineIdx=0;
+  const w=div({style:{paddingTop:16}});
+  if(!days.length){w.appendChild(div({style:{textAlign:"center",padding:"3rem",color:"var(--t3)"}},"No routine yet."));return w;}
+  const tabRow=div({style:{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}});
+  days.forEach((d,i)=>{
+    const active=S._gymRoutineIdx===i;
+    const b=btn({cls:"press",style:{padding:"8px 14px",borderRadius:99,fontSize:12,fontWeight:600,border:active?"none":"1px solid var(--b)",background:active?DAYC[i%5]:"var(--s)",color:active?"#fff":"var(--t2)"},onClick:()=>{S._gymRoutineIdx=i;render();}},d.label);
+    tabRow.appendChild(b);
+  });
+  w.appendChild(tabRow);
+  const idx=Math.min(S._gymRoutineIdx,days.length-1);
+  const day=days[idx];const bgColor=DAYC[idx%5];
+  const card=div({cls:"card",style:{borderRadius:16,overflow:"hidden",marginBottom:16}});
+  card.appendChild(div({style:{background:bgColor,padding:"11px 14px"}},`${day.label} — ${day.exercises.length} exercises`));
+  if(!day.exercises.length)card.appendChild(div({style:{padding:"1.5rem",textAlign:"center",color:"var(--t3)",fontSize:13}},"No exercises. Add one below."));
+  day.exercises.forEach((ex,i)=>{
+    const row=div({style:{display:"flex",alignItems:"center",gap:8,padding:"10px 14px",borderBottom:i<day.exercises.length-1?"1px solid var(--b)":"none"}});
+    const arrows=div({style:{display:"flex",flexDirection:"column",gap:1}});
+    const up=btn({style:{background:"none",border:"none",cursor:i===0?"default":"pointer",color:"var(--t3)",opacity:i===0?0.2:1,padding:0,lineHeight:1},onClick:()=>{if(i>0){const e=[...day.exercises];[e[i],e[i-1]]=[e[i-1],e[i]];S.gym.days=days.map((d2,di)=>di===idx?{...d2,exercises:e}:d2);render();}}});
+    up.appendChild(ico("ti-chevron-up",{fontSize:14}));arrows.appendChild(up);
+    const down=btn({style:{background:"none",border:"none",cursor:i===day.exercises.length-1?"default":"pointer",color:"var(--t3)",opacity:i===day.exercises.length-1?0.2:1,padding:0,lineHeight:1},onClick:()=>{if(i<day.exercises.length-1){const e=[...day.exercises];[e[i],e[i+1]]=[e[i+1],e[i]];S.gym.days=days.map((d2,di)=>di===idx?{...d2,exercises:e}:d2);render();}}});
+    down.appendChild(ico("ti-chevron-down",{fontSize:14}));arrows.appendChild(down);row.appendChild(arrows);
+    row.appendChild(div({style:{width:26,height:26,borderRadius:8,background:"var(--s2)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:11,fontWeight:700,color:"var(--t2)"}},String(i+1)));
+    row.appendChild(span({style:{flex:1,fontSize:14}},ex));
+    const eb=btn({style:{background:"none",border:"none",cursor:"pointer",color:"var(--t3)",padding:4},onClick:()=>{const nv=prompt("Exercise name:",ex);if(nv&&nv.trim()){S.gym.days=days.map((d2,di)=>di===idx?{...d2,exercises:d2.exercises.map((e,ei)=>ei===i?nv.trim():e)}:d2);render();}}});
+    eb.appendChild(ico("ti-pencil",{fontSize:14}));row.appendChild(eb);
+    const db2=btn({style:{background:"none",border:"none",cursor:"pointer",color:"#EF4444",padding:4},onClick:()=>{if(confirm("Remove "+ex+"?")){S.gym.days=days.map((d2,di)=>di===idx?{...d2,exercises:d2.exercises.filter((_,ei)=>ei!==i)}:d2);render();}}});
+    db2.appendChild(ico("ti-trash",{fontSize:14}));row.appendChild(db2);card.appendChild(row);
+  });
+  const addEx=btn({style:{width:"100%",padding:"12px",background:"none",border:"none",borderTop:day.exercises.length?"1px solid var(--b)":"none",cursor:"pointer",fontSize:13,fontWeight:600,color:bgColor,display:"flex",alignItems:"center",justifyContent:"center",gap:6},onClick:()=>{const nv=prompt("New exercise name:");if(nv&&nv.trim()){S.gym.days=days.map((d2,di)=>di===idx?{...d2,exercises:[...d2.exercises,nv.trim()]}:d2);render();}}});
+  addEx.appendChild(ico("ti-plus",{fontSize:14}));addEx.appendChild(document.createTextNode("Add exercise"));card.appendChild(addEx);w.appendChild(card);return w;
+}
+
+// ── START ─────────────────────────────────────────────────────────────────
+render();
+init();
 </script>
 </body>
 </html>
