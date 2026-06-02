@@ -152,7 +152,7 @@ async function init(){
     }else{
       setS({profiles,phase:"picker",activeId:null});
     }
-  }catch(e){setS({phase:"error"});}
+  }catch(e){setS({phase:"error",errMsg:e.message});}
 }
 
 async function loadFin(){
@@ -265,7 +265,7 @@ function gymStreak(){
 function render(){
   const a=app();a.innerHTML="";
   if(S.phase==="loading"||S.loading){a.appendChild(spinPage());return;}
-  if(S.phase==="error"){a.appendChild(errPage());return;}
+  if(S.phase==="error"){a.appendChild(errPage(S.errMsg));return;}
   if(S.phase==="picker"){a.appendChild(pickerPage());return;}
   if(S.phase==="app"){
     a.appendChild(appSwitcher());
@@ -281,10 +281,11 @@ function spinPage(){
   w.appendChild(div({style:{fontSize:13,color:"var(--t3)"}},"Loading…"));
   return w;
 }
-function errPage(){
+function errPage(msg){
   const w=div({style:{display:"flex",alignItems:"center",justifyContent:"center",height:"80vh",flexDirection:"column",gap:16,padding:24,textAlign:"center"}});
   w.appendChild(ico("ti-wifi-off",{fontSize:40,color:"var(--t3)"}));
-  w.appendChild(div({style:{fontSize:15}},"Connection error"));
+  w.appendChild(div({style:{fontSize:15}},msg||"Connection error"));
+  w.appendChild(div({style:{fontSize:12,color:"var(--t3)",marginTop:-8}},"Check internet and tap Retry"));
   w.appendChild(btn({cls:"press",style:{background:"var(--em)",color:"#fff",border:"none",borderRadius:12,padding:"10px 24px",fontSize:14},onClick:init},"Retry"));
   return w;
 }
