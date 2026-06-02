@@ -1042,8 +1042,7 @@ function gymRoutine(){
 }
 
 // ── START ─────────────────────────────────────────────────────────────────
-render();
-init();
+try{render();init();}catch(e){document.getElementById("app").innerHTML='<div style="padding:24px;color:red;font-size:13px;background:#1a1a1a;min-height:100vh"><b style="color:#ff6b6b">JS Error:</b><br><br>'+e.message+'<br><br><small style="color:#aaa">'+e.stack+'</small></div>';}
 </script>
 </body>
 </html>
