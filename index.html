@@ -349,7 +349,11 @@ function appSwitcher(){
     const b=btn({cls:"press",style:{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:7,padding:9,borderRadius:13,border:"none",background:active?(id==="finance"?"linear-gradient(135deg,#0E8C5E,#10B981)":"linear-gradient(135deg,#1565C0,#1976D2)"):"var(--s2)",color:active?"#fff":"var(--t2)",fontSize:13,fontWeight:600,backgroundSize:"200% 200%",animation:active?"shimmer 10s ease infinite":"none"},onClick:()=>setS({appTab:id})});
     b.appendChild(ico(icon,{fontSize:17}));b.appendChild(document.createTextNode(label));w.appendChild(b);
   });
-  const av=btn({style:{width:38,height:38,borderRadius:12,background:`linear-gradient(135deg,${p.color||"#0E8C5E"},${p.color||"#0E8C5E"}cc)`,border:"none",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer",flexShrink:0},onClick:()=>{localStorage.removeItem("w_pid");setS({activeId:null,phase:"picker",sheet:null});}},ini(p.name||"?"));
+  const av=btn({style:{width:38,height:38,borderRadius:12,background:`linear-gradient(135deg,${p.color||"#0E8C5E"},${p.color||"#0E8C5E"}cc)`,border:"none",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer",flexShrink:0},onClick:()=>{
+    const choice=confirm("Switch profile or lock app?\n\nOK = Switch profile\nCancel = Lock app");
+    if(choice){localStorage.removeItem("w_pid");setS({activeId:null,phase:"picker",sheet:null});}
+    else lockApp();
+  }},ini(p.name||"?"));
   w.appendChild(av);return w;
 }
 
