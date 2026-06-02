@@ -113,7 +113,12 @@ async function db(table,method,body,query=""){
   const hd={"Content-Type":"application/json","apikey":SK,"Authorization":`Bearer ${SK}`,"Prefer":"return=representation"};
   const r=await fetch(url,{method,headers:hd,body:body?JSON.stringify(body):null});
   if(r.status===204)return[];
-  try{return await r.json();}catch{return[];}
+  const j=await r.json();
+  if(!Array.isArray(j)){
+    if(j&&j.message)throw new Error(j.message);
+    return[];
+  }
+  return j;
 }
 const GET=(t,q)=>db(t,"GET",null,q);
 const POST=(t,b)=>db(t,"POST",b);
