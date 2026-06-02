@@ -275,7 +275,12 @@ function render(){
   }
 }
 
-function spinPage(){return div({style:{display:"flex",alignItems:"center",justifyContent:"center",height:"80vh",flexDirection:"column",gap:12}}),[div({cls:"spin",style:{width:40,height:40,borderRadius:"50%",border:"3px solid var(--b)",borderTopColor:"var(--em)"}}),div({style:{fontSize:13,color:"var(--t3)"}},"Loading…")];}
+function spinPage(){
+  const w=div({style:{display:"flex",alignItems:"center",justifyContent:"center",height:"80vh",flexDirection:"column",gap:12}});
+  w.appendChild(div({cls:"spin",style:{width:40,height:40,borderRadius:"50%",border:"3px solid var(--b)",borderTopColor:"var(--em)"}}));
+  w.appendChild(div({style:{fontSize:13,color:"var(--t3)"}},"Loading…"));
+  return w;
+}
 function errPage(){
   const w=div({style:{display:"flex",alignItems:"center",justifyContent:"center",height:"80vh",flexDirection:"column",gap:16,padding:24,textAlign:"center"}});
   w.appendChild(ico("ti-wifi-off",{fontSize:40,color:"var(--t3)"}));
